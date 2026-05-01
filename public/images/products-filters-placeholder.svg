@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600" fill="none">
+  <rect width="800" height="600" fill="#f1f5f9"/>
+  <rect x="220" y="120" width="100" height="360" rx="16" fill="#ffffff" stroke="#306FCB" stroke-width="2"/>
+  <rect x="350" y="120" width="100" height="360" rx="16" fill="#ffffff" stroke="#306FCB" stroke-width="2"/>
+  <rect x="480" y="120" width="100" height="360" rx="16" fill="#ffffff" stroke="#306FCB" stroke-width="2"/>
+  <text x="400" y="540" text-anchor="middle" fill="#4D617C" font-family="system-ui,sans-serif" font-size="20">Replacement filters</text>
+</svg>

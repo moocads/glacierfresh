@@ -1,0 +1,115 @@
+{
+  "categories": [
+    {
+      "id": "whole-house",
+      "name": "Whole House Solution",
+      "navLabel": "Whole House Solution",
+      "home": {
+        "subtitle": "Systems & Replacement Filters",
+        "description": "Replacement filters for whole house",
+        "bannerImage": "/images/wholehouse.jpg",
+        "hasOverlay": true,
+        "cta": "View All Whole House Products",
+        "ctaHref": "/products#whole-house"
+      },
+      "products": [
+        {
+          "productName": "GF-WH-4000 Whole House Water Filtration System",
+          "productImage": "/images/products-wholehouse-placeholder.svg",
+          "imageAlt": "Whole house filtration system",
+          "badges": ["For Plumber", "Reseller"],
+          "bullets": [
+            "High-capacity sediment and carbon stages for municipal water",
+            "Compact manifold for easier service and smaller footprint",
+            "Tool-free filter changes with pressure relief built in"
+          ],
+          "cta": "Learn More",
+          "objectPosition": "center"
+        },
+        {
+          "productName": "Sediment & Carbon Replacement Set",
+          "productImage": "/images/products-filters-placeholder.svg",
+          "imageAlt": "Replacement filter cartridges",
+          "model": "Model: GF-WH-RSET-20",
+          "description": "Protect Against: Rust, sand, silt, chlorine taste and odor, and fine particulates before they reach fixtures.",
+          "cta": "Learn More",
+          "objectPosition": "center"
+        }
+      ]
+    },
+    {
+      "id": "under-sink",
+      "name": "Under Sink Filtration",
+      "navLabel": "Under Sink Filtration",
+      "home": {
+        "subtitle": "Systems & Replacement Filters",
+        "description": "Water Filtration Systems for your home",
+        "bannerImage": "/images/under-sink-banner.jpg",
+        "hasOverlay": false,
+        "cta": "View All Under Sink Products",
+        "ctaHref": "/products#under-sink"
+      },
+      "products": [
+        {
+          "productName": "U03 800GPD Undersink Reverse Osmosis System",
+          "productImage": "/images/product/u03-800gpd.png",
+          "imageAlt": "U03 800GPD undersink reverse osmosis system",
+          "badges": ["For Plumber", "Reseller"],
+          "bullets": [
+            "800 GPD, 5-Stage Tankless Under-Sink RO Water Filter System",
+            "Tankless for More Space",
+            "Easy 30-Minute Installation"
+          ],
+          "cta": "Learn More",
+          "objectPosition": "left center"
+        },
+        {
+          "productName": "RO Filter",
+          "productImage": "/images/product/ro-filter.png",
+          "imageAlt": "RO replacement filter cartridges",
+          "model": "Model: FZU03-PPC-800G",
+          "description": "Protect Against: Soluble solids, Arsenic, Chromium, Cadmium, mercury, Lead",
+          "cta": "Learn More",
+          "objectPosition": "right center"
+        }
+      ]
+    },
+    {
+      "id": "outdoor",
+      "name": "Outdoor",
+      "navLabel": "Outdoor",
+      "home": {
+        "subtitle": "Systems & Replacement Filters",
+        "description": "Water Filtration Systems for your outdoor",
+        "bannerImage": "/images/outdoor-banner.png",
+        "hasOverlay": true,
+        "cta": "View All Outdoor Products",
+        "ctaHref": "/products#outdoor"
+      },
+      "products": [
+        {
+          "productName": "GF-OUT Compact Inline Filtration",
+          "productImage": "/images/products-outdoor-placeholder.svg",
+          "imageAlt": "Outdoor inline water filter",
+          "badges": ["RV", "Marine"],
+          "bullets": [
+            "Garden hose and RV-compatible fittings",
+            "Reduces sediment and chlorine for safer outdoor use",
+            "Lightweight housing for travel and seasonal storage"
+          ],
+          "cta": "Learn More",
+          "objectPosition": "center"
+        },
+        {
+          "productName": "Outdoor Replacement Cartridge",
+          "productImage": "/images/products-outdoor-cart-placeholder.svg",
+          "imageAlt": "Outdoor filter cartridge",
+          "model": "Model: GF-OUT-C10",
+          "description": "Protect Against: Sediment, chlorine taste and odor, and particulates in hose and non-potable hookups.",
+          "cta": "Learn More",
+          "objectPosition": "center"
+        }
+      ]
+    }
+  ]
+}

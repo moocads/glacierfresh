@@ -1,35 +1,12 @@
 'use client'
 
 import Image from 'next/image'
+import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
+import { getHomeProductLineCards } from '@/lib/products-catalog-data'
 
-const products = [
-  {
-    title: 'Whole House Solution',
-    subtitle: 'Systems & Replacement Filters',
-    description: 'Replacement filters for whole house',
-    cta: 'View All Whole House Products',
-    image: '/images/wholehouse.jpg',
-    hasOverlay: true,
-  },
-  {
-    title: 'Under Sink Filtration',
-    subtitle: 'Systems & Replacement Filters',
-    description: 'Water Filtration Systems for your home',
-    cta: 'View All Under Sink Products',
-    image: '/images/under-sink-banner.jpg',
-    hasOverlay: false,
-  },
-  {
-    title: 'Outdoor',
-    subtitle: 'Systems & Replacement Filters',
-    description: 'Water Filtration Systems for your outdoor',
-    cta: 'View All Outdoor Products',
-    image: '/images/outdoor-banner.png',
-    hasOverlay: true,
-  },
-]
+const products = getHomeProductLineCards()
 
 export function ProductLine() {
   return (
@@ -61,7 +38,7 @@ export function ProductLine() {
         <div className="grid gap-6 md:grid-cols-3">
           {products.map((product, index) => (
             <motion.div
-              key={product.title}
+              key={product.id}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -97,8 +74,9 @@ export function ProductLine() {
                         variant="outline"
                         size="sm"
                         className="mt-4 w-fit rounded-full border-white bg-transparent text-white hover:bg-white hover:text-secondary"
+                        asChild
                       >
-                        {product.cta}
+                        <Link href={product.ctaHref}>{product.cta}</Link>
                       </Button>
                     )}
                   </div>
