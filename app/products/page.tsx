@@ -1,6 +1,4 @@
 import type { Metadata } from 'next'
-import { Header } from '@/components/header'
-import { Footer } from '@/components/footer'
 import { ProductsCatalog } from '@/components/products-catalog'
 
 export const metadata: Metadata = {
@@ -12,9 +10,7 @@ export const metadata: Metadata = {
 export default function ProductsPage() {
   return (
     <main className="min-h-screen">
-      <Header />
       <ProductsCatalog />
-      <Footer />
     </main>
   )
 }

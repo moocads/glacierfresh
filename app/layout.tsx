@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from 'next'
 import { Nata_Sans, Poppins } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import Script from 'next/script'
+import { Footer } from '@/components/footer'
+import { Header } from '@/components/header'
 import './globals.css'
 
 const nataSans = Nata_Sans({
@@ -54,7 +56,9 @@ export default function RootLayout({
         </Script>
       </head>
       <body className="font-sans antialiased">
+        <Header />
         {children}
+        <Footer />
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>
