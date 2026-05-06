@@ -1,13 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
+import { productCategories } from '@/lib/products-catalog-data'
 
-const productLinks = [
-  { label: 'Refrigerator Filters', href: '/products/refrigerator-filters' },
-  { label: 'Reverse Osmosis', href: '/products/reverse-osmosis' },
-  { label: 'Gravity Systems', href: '/products/gravity-systems' },
-  { label: 'Pitcher Filters', href: '/products/pitcher-filters' },
-  { label: 'RV & Outdoor', href: '/products/rv-outdoor' },
-]
 
 export function Footer() {
   return (
@@ -30,13 +24,13 @@ export function Footer() {
           <div>
             <h3 className="font-heading text-lg font-semibold text-white">Products</h3>
             <ul className="mt-4 space-y-3">
-              {productLinks.map((link) => (
-                <li key={link.label}>
+              {productCategories.map((cat) => (
+                <li key={cat.id}>
                   <Link
-                    href={link.href}
+                    href={`/products#${cat.id}`}
                     className="text-sm text-secondary-100 transition-colors hover:text-primary-300"
                   >
-                    {link.label}
+                    {cat.title}
                   </Link>
                 </li>
               ))}

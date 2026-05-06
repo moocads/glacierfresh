@@ -81,13 +81,13 @@ function ProductShowcaseRow({
   const isSvg = imageSrc.endsWith('.svg')
 
   const imageBlock = (
-    <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-muted">
+    <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-white">
       <Image
         src={imageSrc}
         alt={imageAlt}
         fill
         className={cn(
-          'object-cover',
+          'object-contain',
           objectPosition === 'left center' && 'object-left',
           objectPosition === 'right center' && 'object-right',
           objectPosition === 'center' && 'object-center',
@@ -173,9 +173,9 @@ export function ProductsCatalog() {
 
       <div className="container mx-auto px-4 pb-24 pt-10 lg:px-8 lg:pb-32 lg:pt-14">
         {productCategories.map((cat) => (
-          <section key={cat.id} id={cat.id} className="scroll-mt-[140px]">
-            <div className="mb-12 border-b border-border pb-6 lg:mb-16 lg:pb-8">
-              <h2 className="font-heading text-3xl font-heavy text-primary md:text-4xl">
+          <section key={cat.id} id={cat.id} className="scroll-mt-[140px] mt-10 pt-10">
+            <div className="mb-4 border-b border-border pb-4 lg:mb-8 lg:pb-4">
+              <h2 className="font-heading text-4xl font-heavy text-primary md:text-5xl">
                 {cat.title}
               </h2>
             </div>
