@@ -18,16 +18,16 @@ export function Hero() {
             className="relative z-10"
           >
             <h1 className="text-4xl font-heavy text-primary md:text-5xl">
-              Water You Can Trust.
+              From Glacier to your glass. 
             </h1>
             <h2 className="mt-2 font-heading text-3xl font-heavy text-secondary md:text-5xl ">
-              For Home.
+              Trusted by wholesalers, dealers, and installers.
             </h2>
             <h2 className="font-heading text-3xl font-heavy text-secondary md:text-5xl ">
-              For Business.
+               across North America. 
             </h2>
             <p className="mt-6 max-w-md text-muted-foreground">
-              GlacierFresh is committed to becoming your all-round water purification and safety ambassador
+              NSF-certified water filtration systems designed for consistent supply, easy installation, and long-term value.
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
               <Button className="rounded-full bg-secondary px-6 py-3 text-secondary-foreground hover:bg-secondary-600">

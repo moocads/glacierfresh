@@ -17,6 +17,8 @@ export type CategoryHomeJson = {
   subtitle?: string
   description?: string
   bannerImage: string
+  /** Mega menu / nav preview image */
+  menuImage?: string
   hasOverlay?: boolean
   cta: string
   ctaHref?: string
@@ -50,6 +52,8 @@ export type CatalogCategory = {
   id: string
   title: string
   navLabel: string
+  /** Present when the category defines `home` in `products.json`. */
+  home?: CategoryHomeJson
   products: CatalogProduct[]
 }
 
@@ -89,6 +93,7 @@ function mapCategory(c: CategoryJson): CatalogCategory {
     id: c.id,
     title: c.name,
     navLabel: c.navLabel ?? c.name,
+    home: c.home,
     products: c.products.map(mapProduct),
   }
 }

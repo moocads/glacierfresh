@@ -1,14 +1,14 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion, time } from 'framer-motion'
 import Image from 'next/image'
 
 const features = [
-  'User-obsessed discovery',
-  'Long-term R&D commitment',
-  'Data-driven rigor',
-  'Prototype-driven obsession',
-]
+  {'Reliable Supply Chain':'Consistent inventory and scalable production to support your growth.'},
+  {'Recurring Revenue Potential':'Replacement filters designed for ongoing demand.'},
+  {'Partner-Focused Support':'Tools, training, and resources to help you succeed.'},
+{'Installer-Friendly Design':'Products engineered to reduce installation time and complexity.'},
+];
 
 const certifications = [
   { name: 'FDA', label: 'FDA', icon: '/images/certificate/fda.png' },
@@ -97,32 +97,35 @@ export function WhyChoose() {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <h1 className="text-3xl font-bold md:text-5xl">
-              <span className="text-primary font-heavy">Why Choose</span>
+            <h1 className="text-3xl font-heavy md:text-5xl">
+              <span className="text-primary ">Why Choose</span>
               <br />
               <span className="text-secondary">Glacier </span>
               <span className="text-primary">Fresh</span>
             </h1>
 
             <p className="mt-6 text-muted-foreground">
-              In 2015, Charlie made a bold move, leaving his lucrative career to rebuild the water filtration industry through Apple&apos;s core principles
+              Built to Support Your Business
             </p>
 
             {/* Features List */}
             <ul className="mt-8 space-y-4">
               {features.map((feature, index) => (
                 <motion.li
-                  key={feature}
+                  key={Object.keys(feature)[0]}
                   initial={{ opacity: 0, x: 20 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.3, delay: 0.3 + index * 0.1 }}
-                  className="flex items-center gap-3"
+                  className="flex items-start gap-3"
                 >
                   <div className="flex h-6 w-6 items-center justify-center rounded-full bg-primary-50">
                     <div className="h-3.5 w-3.5 rounded-full bg-primary-100" />
                   </div>
-                  <span className="font-medium text-secondary">{feature}</span>
+                  <div className="flex flex-col">
+                    <span className="font-medium text-primary ">{Object.keys(feature)[0]}</span>
+                    <span className="font-medium text-secondary">{Object.values(feature)[0]}</span>
+                  </div>
                 </motion.li>
               ))}
             </ul>

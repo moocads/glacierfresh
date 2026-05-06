@@ -8,9 +8,10 @@
         "subtitle": "Systems & Replacement Filters",
         "description": "Replacement filters for whole house",
         "bannerImage": "/images/wholehouse.jpg",
+        "menuImage": "/images/product/whole-house-solution.jpg",
         "hasOverlay": true,
         "cta": "View All Whole House Products",
-        "ctaHref": "/products#whole-house"
+        "ctaHref": "/products#whole-house"  
       },
       "products": [
         {
@@ -45,6 +46,7 @@
         "subtitle": "Systems & Replacement Filters",
         "description": "Water Filtration Systems for your home",
         "bannerImage": "/images/under-sink-banner.jpg",
+        "menuImage": "/images/product/u03-800gpd.png",
         "hasOverlay": false,
         "cta": "View All Under Sink Products",
         "ctaHref": "/products#under-sink"
@@ -82,6 +84,7 @@
         "subtitle": "Systems & Replacement Filters",
         "description": "Water Filtration Systems for your outdoor",
         "bannerImage": "/images/outdoor-banner.png",
+        "menuImage": "/images/product/RV03_700-outdoor.webp",
         "hasOverlay": true,
         "cta": "View All Outdoor Products",
         "ctaHref": "/products#outdoor"
@@ -105,6 +108,56 @@
           "productImage": "/images/products-outdoor-cart-placeholder.svg",
           "imageAlt": "Outdoor filter cartridge",
           "model": "Model: GF-OUT-C10",
+          "description": "Protect Against: Sediment, chlorine taste and odor, and particulates in hose and non-potable hookups.",
+          "cta": "Learn More",
+          "objectPosition": "center"
+        }
+      ]
+    },
+    {
+      "id": "Fridge Filters",
+      "name": "Fridge Filters",
+      "navLabel": "Fridge Filters",
+      "home": {
+        "subtitle": "Systems & Replacement Filters",
+        "description": "Water Filtration Systems for your fridge",
+        "bannerImage": "/images/fridge-filters-banner.png",
+        "menuImage": "/images/product/fridge-filters-menu-feature.png",
+        "hasOverlay": true,
+        "cta": "View All Fridge Filters Products",
+        "ctaHref": "/products#fridge-filters"
+      },
+      "products": [
+        {
+          "productName": "Fridge Filter",
+          "productImage": "/images/product/fridge-filters-menu-feature.png",
+          "imageAlt": "Fridge filter",
+          "model": "Model: GF-FR-100",
+          "description": "Protect Against: Sediment, chlorine taste and odor, and particulates in hose and non-potable hookups.",
+          "cta": "Learn More",
+          "objectPosition": "center"
+        }
+      ]
+    },
+    {
+      "id": "Countertop Filters",
+      "name": "Countertop Filters",
+      "navLabel": "Countertop Filters",
+      "home": {
+        "subtitle": "Systems & Replacement Filters",
+        "description": "Water Filtration Systems for your countertop",
+        "bannerImage": "/images/countertop-filters-banner.png",
+        "menuImage": "/images/product/counter-top-filter-menu-image.webp",
+        "hasOverlay": true,
+        "cta": "View All Countertop Filters Products",
+        "ctaHref": "/products#countertop-filters"
+      },
+      "products": [
+        {
+          "productName": "Countertop Filter",
+          "productImage": "/images/product/countertop-filters-menu-feature.png",
+          "imageAlt": "Countertop filter",
+          "model": "Model: GF-CT-100",
           "description": "Protect Against: Sediment, chlorine taste and odor, and particulates in hose and non-potable hookups.",
           "cta": "Learn More",
           "objectPosition": "center"

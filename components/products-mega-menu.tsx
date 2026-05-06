@@ -24,7 +24,9 @@ export function ProductsMegaMenuContent({
       <div className="grid gap-10 md:grid-cols-3 md:gap-0 md:divide-x md:divide-border">
         {productCategories.map((cat, colIndex) => {
           const preview = cat.products[0]
-          const isSvg = preview.imageSrc.endsWith('.svg')
+          const menuImage =
+            cat.home?.menuImage ?? preview?.imageSrc ?? ''
+          const isSvg = menuImage.endsWith('.svg')
 
           return (
             <div
@@ -41,12 +43,12 @@ export function ProductsMegaMenuContent({
                   onClick={onNavigate}
                   className="group block min-w-0"
                 >
-                  <div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-muted ring-1 ring-border transition group-hover:ring-primary/50">
+                  <div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-white ring-1 ring-border transition group-hover:ring-primary/50">
                     <Image
-                      src={preview.imageSrc}
-                      alt={preview.imageAlt}
+                      src={menuImage}
+                      alt={preview?.imageAlt ?? cat.title}
                       fill
-                      className="object-cover transition duration-300 group-hover:scale-[1.02]"
+                      className="object-contain transition duration-300 group-hover:scale-[1.02]"
                       sizes="(min-width: 768px) 28vw, 50vw"
                       unoptimized={isSvg}
                     />
