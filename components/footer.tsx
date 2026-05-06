@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { productCategories } from '@/lib/products-catalog-data'
-
+import { LinkedinIcon } from 'lucide-react'
 
 export function Footer() {
   return (
@@ -41,9 +41,16 @@ export function Footer() {
           <div>
             <h3 className="font-heading text-lg font-semibold text-white">Contact</h3>
             <ul className="mt-4 space-y-3 text-sm text-secondary-100">
-              <li>support@glacierfresh.com</li>
-              <li>1-800-GLACIER</li>
+              <li> <Link href="mailto:wholesale@glacierfreshfilter.com">wholesale@glacierfreshfilter.com</Link></li>
+              <li> <Link href="tel:19059406266">Phone: 1-905-940-6266</Link></li>
+              <li> <Link href="tel:18775136266">Toll free: 1-877-513-6266 </Link></li>
+              <li> <Link href="https://share.google/G1tUyaYyXuWHFwWCd">90 Allstate Pkwy, Suite 601, Markham, ON L3R 6H3</Link></li>
             </ul>
+            <div className="mt-4">
+              <Link href="https://www.linkedin.com/company/89897740/admin/page-posts/published/" target="_blank" rel="noopener noreferrer">
+               <LinkedinIcon className="w-6 h-6 text-secondary-100" />
+              </Link>
+            </div>
           </div>
         </div>
 
