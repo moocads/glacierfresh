@@ -7,9 +7,9 @@ import { ChevronDown, Menu, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import Image from 'next/image'
 import { cn } from '@/lib/utils'
-import { productCategories } from '@/lib/products-catalog-data'
 import { ProductsMegaMenuContent } from '@/components/products-mega-menu'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
+import { useCmsCategories } from '@/lib/use-cms-categories'
 
 const navItems = [
   { label: 'Home', href: '/' },
@@ -25,6 +25,7 @@ export function Header() {
   const [productsMenuOpen, setProductsMenuOpen] = useState(false)
   const [mobileProductsOpen, setMobileProductsOpen] = useState(false)
   const closeProductsTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const { categories } = useCmsCategories()
 
   const clearProductsCloseTimer = useCallback(() => {
     if (closeProductsTimerRef.current) {
@@ -198,7 +199,7 @@ export function Header() {
                   </CollapsibleTrigger>
                 </div>
                 <CollapsibleContent className="space-y-4 pb-2 pl-2">
-                  {productCategories.map((cat) => (
+                  {categories.map((cat) => (
                     <div key={cat.id}>
                       <Link
                         href={`/products#${cat.id}`}
@@ -210,22 +211,6 @@ export function Header() {
                       >
                         {cat.title}
                       </Link>
-                      <ul className="mt-2 space-y-2 border-l border-border pl-3">
-                        {cat.products.map((p) => (
-                          <li key={p.title}>
-                            <Link
-                              href={`/products#${cat.id}`}
-                              className="text-sm text-muted-foreground hover:text-primary"
-                              onClick={() => {
-                                setMobileMenuOpen(false)
-                                setMobileProductsOpen(false)
-                              }}
-                            >
-                              {p.title}
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
                     </div>
                   ))}
                 </CollapsibleContent>

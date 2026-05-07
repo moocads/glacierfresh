@@ -1,9 +1,13 @@
+'use client'
+
 import Link from 'next/link'
 import Image from 'next/image'
-import { productCategories } from '@/lib/products-catalog-data'
 import { LinkedinIcon } from 'lucide-react'
+import { useCmsCategories } from '@/lib/use-cms-categories'
 
 export function Footer() {
+  const { categories } = useCmsCategories()
+
   return (
     <footer className="bg-secondary py-12 text-secondary-foreground lg:py-16">
       <div className="container mx-auto px-4 lg:px-8">
@@ -24,7 +28,7 @@ export function Footer() {
           <div>
             <h3 className="font-heading text-lg font-semibold text-white">Products</h3>
             <ul className="mt-4 space-y-3">
-              {productCategories.map((cat) => (
+              {categories.map((cat) => (
                 <li key={cat.id}>
                   <Link
                     href={`/products#${cat.id}`}

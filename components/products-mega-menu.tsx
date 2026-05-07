@@ -2,8 +2,8 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { productCategories } from '@/lib/products-catalog-data'
 import { cn } from '@/lib/utils'
+import { useCmsCategories } from '@/lib/use-cms-categories'
 
 type ProductsMegaMenuContentProps = {
   onNavigate?: () => void
@@ -14,6 +14,8 @@ export function ProductsMegaMenuContent({
   onNavigate,
   className,
 }: ProductsMegaMenuContentProps) {
+  const { categories } = useCmsCategories()
+
   return (
     <div
       className={cn(
@@ -22,10 +24,8 @@ export function ProductsMegaMenuContent({
       )}
     >
       <div className="grid gap-10 md:grid-cols-3 md:gap-0 md:divide-x md:divide-border">
-        {productCategories.map((cat, colIndex) => {
-          const preview = cat.products[0]
-          const menuImage =
-            cat.home?.menuImage ?? preview?.imageSrc ?? ''
+        {categories.map((cat, colIndex) => {
+          const menuImage = cat.menuImage ?? ''
           const isSvg = menuImage.endsWith('.svg')
 
           return (
@@ -34,7 +34,7 @@ export function ProductsMegaMenuContent({
               className={cn(
                 'min-w-0 md:px-5 lg:px-8',
                 colIndex === 0 && 'md:pl-0',
-                colIndex === productCategories.length - 1 && 'md:pr-0',
+                colIndex === categories.length - 1 && 'md:pr-0',
               )}
             >
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:items-start sm:gap-8">
@@ -46,7 +46,7 @@ export function ProductsMegaMenuContent({
                   <div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-white ring-1 ring-border transition group-hover:ring-primary/50">
                     <Image
                       src={menuImage}
-                      alt={preview?.imageAlt ?? cat.title}
+                      alt={cat.title}
                       fill
                       className="object-contain transition duration-300 group-hover:scale-[1.02]"
                       sizes="(min-width: 768px) 28vw, 50vw"
@@ -57,20 +57,6 @@ export function ProductsMegaMenuContent({
                     {cat.title}
                   </h3>
                 </Link>
-
-                <ul className="flex flex-col gap-2.5 sm:pt-1" role="list">
-                  {cat.products.map((p) => (
-                    <li key={p.title}>
-                      <Link
-                        href={`/products#${cat.id}`}
-                        onClick={onNavigate}
-                        className="block text-sm leading-snug text-muted-foreground transition hover:text-primary"
-                      >
-                        {p.title}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
               </div>
             </div>
           )
