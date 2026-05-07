@@ -2,23 +2,39 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+import { ChevronDown } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
 import {
-  productCategories,
-  type ProductCategoryId,
+  type CatalogProduct,
 } from '@/lib/products-catalog-data'
+import { useCmsCategories } from '@/lib/use-cms-categories'
+import { useCmsProducts } from '@/lib/use-cms-products'
 
 const NAV_OFFSET_PX = 140
 
-type CategoryId = ProductCategoryId
+type CategoryId = string
+type ProductWithSpecs = CatalogProduct & {
+  specs?: { label: string; value: string }[]
+  accessories?: string[]
+}
+type CategoryForCatalog = {
+  id: string
+  title: string
+  navLabel: string
+  products: ProductWithSpecs[]
+}
 
 function scrollToSection(id: CategoryId) {
   const el = document.getElementById(id)
   if (!el) return
   const top = el.getBoundingClientRect().top + window.scrollY - NAV_OFFSET_PX
   window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' })
+  if (window.location.hash !== `#${id}`) {
+    window.history.replaceState(null, '', `#${id}`)
+  }
 }
 
 function ProductShowcaseRow({
@@ -27,6 +43,8 @@ function ProductShowcaseRow({
   title,
   model,
   bullets,
+  specs,
+  accessories,
   description,
   cta,
   imageSrc,
@@ -38,12 +56,16 @@ function ProductShowcaseRow({
   title: string
   model?: string
   bullets?: string[]
+  specs?: { label: string; value: string }[]
+  accessories?: string[]
   description?: string
   cta?: string
   imageSrc: string
   imageAlt: string
   objectPosition: 'left center' | 'right center' | 'center'
 }) {
+  const [accessoriesOpen, setAccessoriesOpen] = useState(false)
+
   const textBlock = (
     <div className="flex flex-col justify-center gap-4 py-2 lg:min-h-[280px] lg:py-6">
       {badges && badges.length > 0 && (
@@ -54,27 +76,73 @@ function ProductShowcaseRow({
         </div>
       )}
       <h3 className="font-heading text-2xl font-bold tracking-tight text-secondary md:text-3xl">
-        {title}
+        {model ?? title}
       </h3>
-      {model && <p className="text-sm text-muted-foreground">{model}</p>}
-      {bullets && bullets.length > 0 && (
+
+    
+      {description && (
+        <p className="text-sm leading-relaxed text-secondary md:text-base">{description}</p>
+      )}
+      {specs && specs.length > 0 && (
+        <div className="overflow-hidden rounded-xl border border-border">
+          <table className="w-full text-sm">
+            <tbody>
+              {specs.map((spec) => (
+                <tr key={`${spec.label}-${spec.value}`} className="border-b border-border last:border-b-0">
+                  <th className="w-2/5 bg-muted/40 px-4 py-2 text-left font-medium text-secondary">
+                    {spec.label}
+                  </th>
+                  <td className="px-4 py-2 text-secondary">{spec.value}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+      {(!specs || specs.length === 0) && bullets && bullets.length > 0 && (
         <ul className="list-disc space-y-2 pl-5 text-sm leading-relaxed text-secondary md:text-base">
           {bullets.map((item) => (
             <li key={item}>{item}</li>
           ))}
         </ul>
       )}
-      {description && (
-        <p className="text-sm leading-relaxed text-secondary md:text-base">{description}</p>
+      {accessories && accessories.length > 0 && (
+        <Collapsible open={accessoriesOpen} onOpenChange={setAccessoriesOpen}>
+          <div className="overflow-hidden rounded-xl border border-border">
+            <CollapsibleTrigger className="flex w-full items-center justify-between px-4 py-3 text-left">
+              <h3 className="font-heading text-lg font-semibold text-secondary">Accessories</h3>
+              <ChevronDown
+                className={cn(
+                  'size-4 shrink-0 text-secondary transition-transform duration-200',
+                  accessoriesOpen && 'rotate-180',
+                )}
+              />
+            </CollapsibleTrigger>
+            <CollapsibleContent forceMount className="overflow-hidden">
+              <div
+                className={cn(
+                  'px-4 transition-all duration-300 ease-out',
+                  accessoriesOpen ? 'max-h-80 pb-3 opacity-100' : 'max-h-0 pb-0 opacity-0',
+                )}
+              >
+                <ul className="list-disc space-y-2 pl-5 text-xs leading-relaxed text-secondary md:text-sm">
+                  {accessories.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+            </CollapsibleContent>
+          </div>
+        </Collapsible>
       )}
-      {cta && (
+      {/* {cta && (
         <Button
           asChild
           className="mt-2 w-fit rounded-full bg-primary px-8 text-primary-foreground hover:bg-primary-600"
         >
           <Link href="/support">{cta}</Link>
         </Button>
-      )}
+      )} */}
     </div>
   )
 
@@ -107,9 +175,52 @@ function ProductShowcaseRow({
 }
 
 export function ProductsCatalog() {
-  const [activeId, setActiveId] = useState<CategoryId>(
-    () => productCategories[0]?.id ?? 'whole-house',
+  const { categories: cmsCategories } = useCmsCategories()
+  const { products: cmsProducts } = useCmsProducts()
+  const categoriesForCatalog: CategoryForCatalog[] = useMemo(
+    () => {
+      if (cmsCategories.length === 0) return []
+
+      return cmsCategories
+        .map((cmsCat) => {
+          const cmsProductsInCategory = cmsProducts
+            .filter((p) => p.categorySlug === cmsCat.id)
+            .map(
+              (p): ProductWithSpecs => ({
+                title: p.title,
+                model: p.model,
+                description: p.description,
+                cta: 'Learn More',
+                imageSrc: p.imageSrc ?? '/images/products.png',
+                imageAlt: p.imageAlt ?? p.title,
+                objectPosition: 'center',
+                specs: p.specs,
+                accessories: p.accessories,
+              }),
+            )
+
+          return {
+            id: cmsCat.id,
+            title: cmsCat.title,
+            navLabel: cmsCat.title,
+            products: cmsProductsInCategory,
+          }
+        })
+        .filter((cat) => cat.products.length > 0)
+    },
+    [cmsCategories, cmsProducts],
   )
+
+  const [activeId, setActiveId] = useState<CategoryId>(
+    () => categoriesForCatalog[0]?.id ?? '',
+  )
+
+  useEffect(() => {
+    if (!categoriesForCatalog.length) return
+    if (!activeId || !categoriesForCatalog.some((c) => c.id === activeId)) {
+      setActiveId(categoriesForCatalog[0].id)
+    }
+  }, [categoriesForCatalog, activeId])
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -119,7 +230,7 @@ export function ProductsCatalog() {
           .sort((a, b) => (b.intersectionRatio ?? 0) - (a.intersectionRatio ?? 0))[0]
         if (visible?.target?.id) {
           const id = visible.target.id as CategoryId
-          if (productCategories.some((c) => c.id === id)) setActiveId(id)
+          if (categoriesForCatalog.some((c) => c.id === id)) setActiveId(id)
         }
       },
       {
@@ -128,21 +239,21 @@ export function ProductsCatalog() {
       },
     )
 
-    productCategories.forEach((c) => {
+    categoriesForCatalog.forEach((c) => {
       const el = document.getElementById(c.id)
       if (el) observer.observe(el)
     })
 
     return () => observer.disconnect()
-  }, [])
+  }, [categoriesForCatalog])
 
   useEffect(() => {
     const hash = window.location.hash.slice(1)
-    if (hash && productCategories.some((c) => c.id === hash)) {
+    if (hash && categoriesForCatalog.some((c) => c.id === hash)) {
       const id = hash as CategoryId
       requestAnimationFrame(() => scrollToSection(id))
     }
-  }, [])
+  }, [categoriesForCatalog])
 
   return (
     <>
@@ -152,7 +263,7 @@ export function ProductsCatalog() {
       >
         <div className="container mx-auto px-4 lg:px-8">
           <div className="flex gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] md:justify-center md:gap-3 [&::-webkit-scrollbar]:hidden">
-            {productCategories.map((cat) => (
+            {categoriesForCatalog.map((cat) => (
               <button
                 key={cat.id}
                 type="button"
@@ -172,7 +283,7 @@ export function ProductsCatalog() {
       </nav>
 
       <div className="container mx-auto px-4 pb-24 pt-10 lg:px-8 lg:pb-32 lg:pt-14">
-        {productCategories.map((cat) => (
+        {categoriesForCatalog.map((cat) => (
           <section key={cat.id} id={cat.id} className="scroll-mt-[140px] mt-10 pt-10">
             <div className="mb-4 border-b border-border pb-4 lg:mb-8 lg:pb-4">
               <h2 className="font-heading text-4xl font-heavy text-primary md:text-5xl">
@@ -189,6 +300,8 @@ export function ProductsCatalog() {
                   title={product.title}
                   model={product.model}
                   bullets={product.bullets}
+                  specs={product.specs}
+                  accessories={product.accessories}
                   description={product.description}
                   cta={product.cta}
                   imageSrc={product.imageSrc}

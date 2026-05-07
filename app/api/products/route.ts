@@ -14,23 +14,20 @@ export async function GET() {
     );
   }
 
-  // Supports either:
-  // 1) Full endpoint: https://.../api/categories?populate=*
-  // 2) Base domain:    https://...
-  const url = configuredUrl.includes("/api/categories")
-    ? configuredUrl
-    : `${configuredUrl.replace(/\/$/, "")}/api/categories?populate=*`;
+  const base = configuredUrl.replace(/\/$/, "");
+  const url = base.includes("/api/categories")
+    ? base.replace("/api/categories?populate=*", "/api/products?populate=*")
+    : `${base}/api/products?populate=*`;
 
   try {
     const res = await fetch(url, {
-      // This runs on the server; Strapi URL is never sent to the browser.
       next: { revalidate: 60 },
     });
 
     if (!res.ok) {
       return NextResponse.json(
         {
-          error: "Failed to fetch categories from CMS",
+          error: "Failed to fetch products from CMS",
           upstreamStatus: res.status,
         },
         { status: 500 },
@@ -40,9 +37,9 @@ export async function GET() {
     const data = await res.json();
     return NextResponse.json(data);
   } catch (error) {
-    console.error("Error fetching categories from CMS:", error);
+    console.error("Error fetching products from CMS:", error);
     return NextResponse.json(
-      { error: "Unexpected error fetching categories" },
+      { error: "Unexpected error fetching products" },
       { status: 500 },
     );
   }

@@ -1,13 +1,14 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { productCategories } from '@/lib/products-catalog-data'
 
 export type CmsCategory = {
   id: string
   title: string
   slug: string
   menuImage?: string
-  products?: { title: string }[]
+  products?: { title: string; model?: string; description?: string }[]
 }
 
 type CmsApiCategory = {
@@ -22,7 +23,7 @@ type CmsApiCategory = {
       thumbnail?: { url: string }
     }
   }
-  products?: { model?: string }[]
+  products?: { model?: string; description?: string }[]
 }
 
 type CmsCategoriesResponse = {
@@ -30,7 +31,19 @@ type CmsCategoriesResponse = {
 }
 
 export function useCmsCategories() {
-  const [categories, setCategories] = useState<CmsCategory[]>([])
+  const fallbackCategories: CmsCategory[] = productCategories.map((c) => ({
+    id: c.id,
+    title: c.title,
+    slug: c.id,
+    menuImage: c.home?.menuImage ?? c.products[0]?.imageSrc,
+    products: c.products.map((p) => ({
+      title: p.title,
+      model: p.model,
+      description: p.description,
+    })),
+  }))
+
+  const [categories, setCategories] = useState<CmsCategory[]>(fallbackCategories)
 
   useEffect(() => {
     let cancelled = false
@@ -40,6 +53,7 @@ export function useCmsCategories() {
         const res = await fetch('/api/categories')
         if (!res.ok) return
         const json = (await res.json()) as CmsCategoriesResponse
+        if (!Array.isArray(json.data) || json.data.length === 0) return
 
         if (cancelled) return
 
@@ -56,6 +70,8 @@ export function useCmsCategories() {
             menuImage: menuUrl,
             products: c.products?.map((p) => ({
               title: p.model ?? '',
+              model: p.model,
+              description: p.description,
             })),
           }
         })
