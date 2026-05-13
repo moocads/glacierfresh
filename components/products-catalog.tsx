@@ -106,6 +106,7 @@ function ProductShowcaseRow({
           ))}
         </ul>
       )}
+
       {accessories && accessories.length > 0 && (
         <Collapsible open={accessoriesOpen} onOpenChange={setAccessoriesOpen}>
           <div className="overflow-hidden rounded-xl border border-border">
@@ -135,14 +136,15 @@ function ProductShowcaseRow({
           </div>
         </Collapsible>
       )}
-      {/* {cta && (
+      {cta && (
         <Button
           asChild
           className="mt-2 w-fit rounded-full bg-primary px-8 text-primary-foreground hover:bg-primary-600"
         >
-          <Link href="/support">{cta}</Link>
+          
+          <Link href="/support">Get Quote</Link> <Link href="/support">Get Quote</Link>
         </Button>
-      )} */}
+      )}
     </div>
   )
 

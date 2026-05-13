@@ -1,7 +1,23 @@
+'use client'
+
 import Image from 'next/image'
+import { useState } from 'react'
+import {
+  PartnerRegistrationFormDialog,
+  type PartnerTypeOption,
+} from '@/components/partner-registration-form'
 import { Button } from '@/components/ui/button'
 
-const partnerSections = [
+const partnerSections: {
+  title: string
+  description: string
+  supportTitle: string
+  points: string[]
+  cta: string
+  imageSrc: string
+  imageAlt: string
+  defaultPartnerType: PartnerTypeOption
+}[] = [
   {
     title: 'For Wholesalers & Distributors',
     description:
@@ -15,6 +31,7 @@ const partnerSections = [
     cta: 'Explore Wholesale Opportunities',
     imageSrc: '/images/wholesaler-distributors.jpg',
     imageAlt: 'Wholesale and distribution partner support',
+    defaultPartnerType: 'Wholesalers&Distributors',
   },
   {
     title: 'For Dealers & Retail Partners',
@@ -29,6 +46,7 @@ const partnerSections = [
     cta: 'Access Dealer Resources',
     imageSrc: '/images/retailer.jpg',
     imageAlt: 'Dealer and retail partner support',
+    defaultPartnerType: 'Dealers&Retail Partner',
   },
   {
     title: 'For Plumbers & Installers',
@@ -43,10 +61,21 @@ const partnerSections = [
     cta: 'View Installation Hub',
     imageSrc: '/images/plumber.jpg',
     imageAlt: 'Plumber and installer support',
+    defaultPartnerType: 'Plumbers&Installers',
   },
 ]
 
 export function PartnersContent() {
+  const [registrationOpen, setRegistrationOpen] = useState(false)
+  const [defaultPartnerType, setDefaultPartnerType] = useState<PartnerTypeOption | undefined>(
+    undefined,
+  )
+
+  function openRegistration(partnerType: PartnerTypeOption) {
+    setDefaultPartnerType(partnerType)
+    setRegistrationOpen(true)
+  }
+
   return (
     <>
       <section className="relative overflow-hidden">
@@ -121,12 +150,24 @@ export function PartnersContent() {
                     <li key={point}>{point}</li>
                   ))}
                 </ul>
-                <Button className="mt-8 rounded-full px-7">{section.cta}</Button>
+                <Button
+                  type="button"
+                  className="mt-8 rounded-full px-7"
+                  onClick={() => openRegistration(section.defaultPartnerType)}
+                >
+                  {section.cta}
+                </Button>
               </div>
             </div>
           ))}
         </div>
       </section>
+
+      <PartnerRegistrationFormDialog
+        open={registrationOpen}
+        onOpenChange={setRegistrationOpen}
+        defaultPartnerType={defaultPartnerType}
+      />
     </>
   )
 }
