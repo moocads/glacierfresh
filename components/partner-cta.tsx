@@ -1,10 +1,15 @@
 'use client'
 
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import Image from 'next/image'
+import Link from 'next/link'
+import { PartnerRegistrationFormDialog } from '@/components/partner-registration-form'
 
 export function PartnerCTA() {
+  const [registrationOpen, setRegistrationOpen] = useState(false)
+
   return (
     <section className="py-8 lg:py-10">
       <div className="container mx-auto px-4 lg:px-8">
@@ -35,13 +40,19 @@ export function PartnerCTA() {
               </p>
 
               <div className="mt-8 flex flex-wrap justify-center gap-4 lg:justify-start">
+                <Link href="/partners">
                 <Button
                   variant="outline"
                   className="rounded-full border-white bg-transparent text-white hover:bg-white hover:text-secondary"
                 >
                   See Partner Benefits
                 </Button>
-                <Button className="rounded-full bg-secondary-800 text-white hover:bg-secondary-900">
+                </Link>
+                <Button
+                  type="button"
+                  className="rounded-full bg-secondary-800 text-white hover:bg-secondary-900"
+                  onClick={() => setRegistrationOpen(true)}
+                >
                   Become a Partner
                 </Button>
               </div>
@@ -49,6 +60,8 @@ export function PartnerCTA() {
           </div>
         </motion.div>
       </div>
+
+      <PartnerRegistrationFormDialog open={registrationOpen} onOpenChange={setRegistrationOpen} />
     </section>
   )
 }
