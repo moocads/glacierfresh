@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { ChevronDown } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
@@ -37,6 +37,70 @@ function scrollToSection(id: CategoryId) {
   }
 }
 
+function ProductDescriptionClamp({ description }: { description: string }) {
+  const [expanded, setExpanded] = useState(false)
+  const [overflowsTwoLines, setOverflowsTwoLines] = useState<boolean | null>(null)
+  const descRef = useRef<HTMLParagraphElement>(null)
+
+  useLayoutEffect(() => {
+    const el = descRef.current
+    if (!el) {
+      setOverflowsTwoLines(false)
+      return
+    }
+
+    function measure() {
+      const node = descRef.current
+      if (!node) return
+      if (expanded) return
+      setOverflowsTwoLines(node.scrollHeight > node.clientHeight + 1)
+    }
+
+    measure()
+    const ro = new ResizeObserver(() => {
+      requestAnimationFrame(measure)
+    })
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [description, expanded])
+
+  const showFade = !expanded && overflowsTwoLines === true
+  const showToggle = expanded || overflowsTwoLines === true
+
+  return (
+    <div className="relative">
+      <p
+        ref={descRef}
+        className={cn(
+          'text-sm leading-relaxed text-secondary transition-[max-height] duration-500 ease-out motion-reduce:transition-none md:text-base',
+          expanded
+            ? 'line-clamp-none max-h-[min(120rem,300vh)]'
+            : 'line-clamp-2 max-h-[2lh] overflow-hidden',
+        )}
+      >
+        {description}
+      </p>
+
+      {showFade && (
+        <div
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-14 bg-gradient-to-t from-background via-background/80 to-transparent"
+          aria-hidden
+        />
+      )}
+
+      {showToggle && (
+        <button
+          type="button"
+          onClick={() => setExpanded((v) => !v)}
+          className="relative z-10 mt-2 text-sm font-semibold text-primary underline-offset-4 transition-colors hover:text-primary-600 hover:underline"
+        >
+          {expanded ? 'Read less' : 'Read more'}
+        </button>
+      )}
+    </div>
+  )
+}
+
 function ProductShowcaseRow({
   imageFirst,
   badges,
@@ -64,6 +128,7 @@ function ProductShowcaseRow({
   imageAlt: string
   objectPosition: 'left center' | 'right center' | 'center'
 }) {
+  const [specsOpen, setSpecsOpen] = useState(false)
   const [accessoriesOpen, setAccessoriesOpen] = useState(false)
 
   const textBlock = (
@@ -79,25 +144,45 @@ function ProductShowcaseRow({
         {model ?? title}
       </h3>
 
-    
-      {description && (
-        <p className="text-sm leading-relaxed text-secondary md:text-base">{description}</p>
-      )}
+      {description && <ProductDescriptionClamp description={description} />}
       {specs && specs.length > 0 && (
-        <div className="overflow-hidden rounded-xl border border-border">
-          <table className="w-full text-sm">
-            <tbody>
-              {specs.map((spec) => (
-                <tr key={`${spec.label}-${spec.value}`} className="border-b border-border last:border-b-0">
-                  <th className="w-2/5 bg-muted/40 px-4 py-2 text-left font-medium text-secondary">
-                    {spec.label}
-                  </th>
-                  <td className="px-4 py-2 text-secondary">{spec.value}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <Collapsible open={specsOpen} onOpenChange={setSpecsOpen}>
+          <div className="overflow-hidden rounded-xl border border-border">
+            <CollapsibleTrigger className="flex w-full items-center justify-between px-4 py-3 text-left">
+              <h3 className="font-heading text-lg font-semibold text-secondary">Specifications</h3>
+              <ChevronDown
+                className={cn(
+                  'size-4 shrink-0 text-secondary transition-transform duration-200',
+                  specsOpen && 'rotate-180',
+                )}
+              />
+            </CollapsibleTrigger>
+            <CollapsibleContent forceMount className="overflow-hidden">
+              <div
+                className={cn(
+                  'transition-all duration-300 ease-out',
+                  specsOpen ? 'max-h-[5000px] pb-3 opacity-100' : 'max-h-0 pb-0 opacity-0',
+                )}
+              >
+                <table className="w-full text-sm">
+                  <tbody>
+                    {specs.map((spec) => (
+                      <tr
+                        key={`${spec.label}-${spec.value}`}
+                        className="border-b border-border last:border-b-0"
+                      >
+                        <th className="w-2/5 bg-muted/40 px-4 py-2 text-left font-medium text-secondary">
+                          {spec.label}
+                        </th>
+                        <td className="px-4 py-2 text-secondary">{spec.value}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </CollapsibleContent>
+          </div>
+        </Collapsible>
       )}
       {(!specs || specs.length === 0) && bullets && bullets.length > 0 && (
         <ul className="list-disc space-y-2 pl-5 text-sm leading-relaxed text-secondary md:text-base">
@@ -141,8 +226,7 @@ function ProductShowcaseRow({
           asChild
           className="mt-2 w-fit rounded-full bg-primary px-8 text-primary-foreground hover:bg-primary-600"
         >
-          
-          <Link href="/support">Get Quote</Link> <Link href="/support">Get Quote</Link>
+          <Link href="/support">Get Quote</Link>
         </Button>
       )}
     </div>

@@ -17,13 +17,13 @@ export function Hero() {
             transition={{ duration: 0.6 }}
             className="relative z-10"
           >
-            <h1 className="text-4xl font-heavy text-primary md:text-5xl">
-              From Glacier to your glass. 
+            <h1 className="text-4xl font-heavy text-primary md:text-6xl">
+              From Glacier to Your Glass. 
             </h1>
-            <h2 className="mt-2 font-heading text-3xl font-heavy text-secondary md:text-5xl ">
+            <h2 className="mt-2 font-heading text-2xl font-bold text-secondary md:text-2xl ">
               Trusted by wholesalers, dealers, and installers.
             </h2>
-            <h2 className="font-heading text-3xl font-heavy text-secondary md:text-5xl ">
+            <h2 className="font-heading text-2xl font-bold text-secondary md:text-2xl ">
                across North America. 
             </h2>
             <p className="mt-6 max-w-md text-muted-foreground">

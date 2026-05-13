@@ -13,7 +13,7 @@ import { useCmsCategories } from '@/lib/use-cms-categories'
 
 const navItems = [
   { label: 'Home', href: '/' },
-  { label: 'Our Story', href: '/our-story' },
+  { label: 'About', href: '/about' },
   { label: 'Partners', href: '/partners' },
   { label: 'Support', href: '/support' },
 ]
@@ -170,11 +170,11 @@ export function Header() {
                 Home
               </Link>
               <Link
-                href="/our-story"
+                href="/about"
                 className="py-2 text-sm font-medium text-secondary transition-colors hover:text-primary"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Our Story
+                About
               </Link>
 
               <Collapsible open={mobileProductsOpen} onOpenChange={setMobileProductsOpen}>
