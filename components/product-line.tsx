@@ -64,11 +64,11 @@ export function ProductLine() {
                       {product.title}
                     </h2>
                     {product.subtitle && (
-                      <p className="mt-1 text-sm text-white/80">{product.subtitle}</p>
+                      <p className="mt-1 text-sm text-white/80 whitespace-pre-line">{product.subtitle}</p>
                     )}
-                    {product.description && (
+                    {/* {product.description && (
                       <p className="mt-1 text-sm text-white/70">{product.description}</p>
-                    )}
+                    )} */}
                     {product.cta && (
                       <Button
                         variant="outline"
@@ -76,7 +76,7 @@ export function ProductLine() {
                         className="mt-4 w-fit rounded-full border-white bg-transparent text-white hover:bg-white hover:text-secondary"
                         asChild
                       >
-                        <Link href={product.ctaHref}>{product.cta}</Link>
+                        <Link href={product.ctaHref}>View All Products</Link>
                       </Button>
                     )}
                   </div>

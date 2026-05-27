@@ -37,6 +37,35 @@ function scrollToSection(id: CategoryId) {
   }
 }
 
+/** Section whose heading has passed the sticky nav anchor — works for uneven section heights. */
+function getActiveCategoryId(categories: CategoryForCatalog[]): CategoryId | null {
+  if (!categories.length) return null
+
+  const anchorY = window.scrollY + NAV_OFFSET_PX + 24
+  const sectionTops = categories
+    .map((cat) => {
+      const el = document.getElementById(cat.id)
+      if (!el) return null
+      return { id: cat.id, top: el.getBoundingClientRect().top + window.scrollY }
+    })
+    .filter((s): s is { id: CategoryId; top: number } => s !== null)
+
+  if (!sectionTops.length) return null
+
+  let active = sectionTops[0].id
+  for (const { id, top } of sectionTops) {
+    if (top <= anchorY) active = id
+  }
+
+  const nearBottom =
+    window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 80
+  if (nearBottom) {
+    active = sectionTops[sectionTops.length - 1].id
+  }
+
+  return active
+}
+
 function ProductDescriptionClamp({ description }: { description: string }) {
   const [expanded, setExpanded] = useState(false)
   const [overflowsTwoLines, setOverflowsTwoLines] = useState<boolean | null>(null)
@@ -128,8 +157,8 @@ function ProductShowcaseRow({
   imageAlt: string
   objectPosition: 'left center' | 'right center' | 'center'
 }) {
-  const [specsOpen, setSpecsOpen] = useState(false)
-  const [accessoriesOpen, setAccessoriesOpen] = useState(false)
+  const [specsOpen, setSpecsOpen] = useState(true)
+  const [accessoriesOpen, setAccessoriesOpen] = useState(true)
 
   const textBlock = (
     <div className="flex flex-col justify-center gap-4 py-2 lg:min-h-[280px] lg:py-6">
@@ -161,7 +190,7 @@ function ProductShowcaseRow({
               <div
                 className={cn(
                   'transition-all duration-300 ease-out',
-                  specsOpen ? 'max-h-[5000px] pb-3 opacity-100' : 'max-h-0 pb-0 opacity-0',
+                  specsOpen ? 'max-h-[5000px] pb-0 opacity-100' : 'max-h-0 pb-0 opacity-0',
                 )}
               >
                 <table className="w-full text-sm">
@@ -169,7 +198,7 @@ function ProductShowcaseRow({
                     {specs.map((spec) => (
                       <tr
                         key={`${spec.label}-${spec.value}`}
-                        className="border-b border-border last:border-b-0"
+                        className="border-t border-border last:border-b-0"
                       >
                         <th className="w-2/5 bg-muted/40 px-4 py-2 text-left font-medium text-secondary">
                           {spec.label}
@@ -226,7 +255,7 @@ function ProductShowcaseRow({
           asChild
           className="mt-2 w-fit rounded-full bg-primary px-8 text-primary-foreground hover:bg-primary-600"
         >
-          <Link href="/support">Get Quote</Link>
+          <Link href="/support">Get a quote</Link>
         </Button>
       )}
     </div>
@@ -309,28 +338,28 @@ export function ProductsCatalog() {
   }, [categoriesForCatalog, activeId])
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => (b.intersectionRatio ?? 0) - (a.intersectionRatio ?? 0))[0]
-        if (visible?.target?.id) {
-          const id = visible.target.id as CategoryId
-          if (categoriesForCatalog.some((c) => c.id === id)) setActiveId(id)
-        }
-      },
-      {
-        rootMargin: `-${NAV_OFFSET_PX}px 0px -45% 0px`,
-        threshold: [0, 0.1, 0.25, 0.5],
-      },
-    )
+    if (!categoriesForCatalog.length) return
 
-    categoriesForCatalog.forEach((c) => {
-      const el = document.getElementById(c.id)
-      if (el) observer.observe(el)
-    })
+    let rafId = 0
+    const updateActive = () => {
+      const id = getActiveCategoryId(categoriesForCatalog)
+      if (id) setActiveId(id)
+    }
 
-    return () => observer.disconnect()
+    const onScroll = () => {
+      cancelAnimationFrame(rafId)
+      rafId = requestAnimationFrame(updateActive)
+    }
+
+    updateActive()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', onScroll)
+
+    return () => {
+      cancelAnimationFrame(rafId)
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
+    }
   }, [categoriesForCatalog])
 
   useEffect(() => {
@@ -353,7 +382,10 @@ export function ProductsCatalog() {
               <button
                 key={cat.id}
                 type="button"
-                onClick={() => scrollToSection(cat.id)}
+                onClick={() => {
+                  setActiveId(cat.id)
+                  scrollToSection(cat.id)
+                }}
                 className={cn(
                   'shrink-0 rounded-full border px-4 py-2 text-sm font-medium transition-colors md:px-6 md:py-2.5 md:text-base',
                   activeId === cat.id

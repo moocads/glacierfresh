@@ -5,7 +5,7 @@
       "name": "Whole House Solution",
       "navLabel": "Whole House Solution",
       "home": {
-        "subtitle": "Systems & Replacement Filters",
+        "subtitle": "Systems & Cartridges",
         "description": "Replacement filters for whole house",
         "bannerImage": "/images/wholehouse.jpg",
         "menuImage": "/images/product/whole-house-solution.jpg",
@@ -43,7 +43,7 @@
       "name": "Under Sink Filtration",
       "navLabel": "Under Sink Filtration",
       "home": {
-        "subtitle": "Systems & Replacement Filters",
+        "subtitle": "Systems & Cartridges",
         "description": "Water Filtration Systems for your home",
         "bannerImage": "/images/under-sink-banner.jpg",
         "menuImage": "/images/product/u03-800gpd.png",
@@ -81,7 +81,7 @@
       "name": "Outdoor",
       "navLabel": "Outdoor",
       "home": {
-        "subtitle": "Systems & Replacement Filters",
+        "subtitle": "Systems & Cartridges",
         "description": "Water Filtration Systems for your outdoor",
         "bannerImage": "/images/outdoor-banner.png",
         "menuImage": "/images/product/RV03_700-outdoor.webp",
@@ -119,7 +119,7 @@
       "name": "Fridge Filters",
       "navLabel": "Fridge Filters",
       "home": {
-        "subtitle": "Systems & Replacement Filters",
+        "subtitle": "NSF/IAPMO 53 certified filters \n compatible with 11 major refrigerator brands.",
         "description": "Water Filtration Systems for your fridge",
         "bannerImage": "/images/fridge-filters-banner.png",
         "menuImage": "/images/product/fridge-filters-menu-feature.png",
@@ -144,7 +144,7 @@
       "name": "Countertop Filters",
       "navLabel": "Countertop Filters",
       "home": {
-        "subtitle": "Systems & Replacement Filters",
+        "subtitle": "Systems & Cartridges",
         "description": "Water Filtration Systems for your countertop",
         "bannerImage": "/images/countertop-filters-banner.png",
         "menuImage": "/images/product/counter-top-filter-menu-image.webp",

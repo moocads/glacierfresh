@@ -19,11 +19,11 @@ export function ProductsMegaMenuContent({
   return (
     <div
       className={cn(
-        'container mx-auto px-4 py-10 lg:px-8',
+        'container mx-auto px-2 py-6 lg:px-2',
         className,
       )}
     >
-      <div className="grid gap-10 md:grid-cols-3 md:gap-0 md:divide-x md:divide-border">
+      <div className="grid gap-2 md:grid-cols-6 md:gap-0">
         {categories.map((cat, colIndex) => {
           const menuImage = cat.menuImage ?? ''
           const isSvg = menuImage.endsWith('.svg')
@@ -32,12 +32,12 @@ export function ProductsMegaMenuContent({
             <div
               key={cat.id}
               className={cn(
-                'min-w-0 md:px-5 lg:px-8',
+                'min-w-0 md:px-2',
                 colIndex === 0 && 'md:pl-0',
                 colIndex === categories.length - 1 && 'md:pr-0',
               )}
             >
-              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:items-start sm:gap-8">
+              <div className="grid grid-cols-1 gap-2 sm:items-start ">
                 <Link
                   href={`/products#${cat.id}`}
                   onClick={onNavigate}

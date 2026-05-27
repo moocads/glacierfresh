@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
+import Link from 'next/link'
 
 export function Hero() {
   return (
@@ -36,8 +37,10 @@ export function Hero() {
               <Button
                 variant="outline"
                 className="rounded-full border-secondary px-6 py-3 text-secondary hover:bg-secondary hover:text-secondary-foreground"
+                asChild
               >
-                Product Catalog
+                <Link href="/support">Product Catalog</Link>
+
               </Button>
             </div>
           </motion.div>
@@ -52,7 +55,7 @@ export function Hero() {
             <div className="relative w-full " style={{backgroundImage: "url('/images/water-drop.svg')", backgroundRepeat: 'no-repeat', backgroundSize: 'contain', backgroundPosition: 'center'}}>
               {/* Main product image - Water filtration system */}
                 <div className="flex h-full w-full items-center justify-center">
-                  <Image src="/images/products.png" alt="Glacier Fresh" width={600} height={300} />
+                  <Image src="/images/products-v2.png" alt="Glacier Fresh" width={600} height={300} />
                 </div>
             </div>
           </motion.div>

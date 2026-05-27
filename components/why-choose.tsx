@@ -123,8 +123,8 @@ export function WhyChoose() {
                     <div className="h-3.5 w-3.5 rounded-full bg-primary-100" />
                   </div>
                   <div className="flex flex-col">
-                    <span className="font-medium text-primary ">{Object.keys(feature)[0]}</span>
-                    <span className="font-medium text-secondary">{Object.values(feature)[0]}</span>
+                    <span className="font-medium text-primary text-xl">{Object.keys(feature)[0]}</span>
+                    {/* <span className="font-medium text-secondary">{Object.values(feature)[0]}</span> */}
                   </div>
                 </motion.li>
               ))}

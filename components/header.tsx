@@ -16,6 +16,7 @@ const navItems = [
   { label: 'About', href: '/about' },
   { label: 'Partners', href: '/partners' },
   { label: 'Support', href: '/support' },
+  { label: 'Contact', href: '/contact-us' },
 ]
 
 const MENU_CLOSE_DELAY_MS = 180
@@ -113,14 +114,17 @@ export function Header() {
 
           {/* CTA Buttons */}
           <div className="hidden items-center gap-3 md:flex">
-            <Button
+            {/* <Button
               variant="outline"
               className="rounded-full border-primary text-primary hover:bg-primary hover:text-primary-foreground"
             >
               Where to buy?
-            </Button>
-            <Button className="rounded-full bg-primary text-primary-foreground hover:bg-primary-600">
-              {"Let's Talk"}
+            </Button> */}
+            <Button
+              asChild
+              className="rounded-full bg-primary text-primary-foreground hover:bg-primary-600"
+            >
+              <Link href="/contact-us">Talk to Sales</Link>
             </Button>
           </div>
 
@@ -231,14 +235,19 @@ export function Header() {
                 Support
               </Link>
               <div className="flex flex-col gap-3 pt-4">
-                <Button
+                {/* <Button
                   variant="outline"
                   className="rounded-full border-primary text-primary hover:bg-primary hover:text-primary-foreground"
                 >
                   Where to buy?
-                </Button>
-                <Button className="rounded-full bg-primary text-primary-foreground hover:bg-primary-600">
-                  {"Let's Talk"}
+                </Button> */}
+                <Button
+                  asChild
+                  className="rounded-full bg-primary text-primary-foreground hover:bg-primary-600"
+                >
+                  <Link href="/contact-us" onClick={() => setMobileMenuOpen(false)}>
+                   Talk to Sales
+                  </Link>
                 </Button>
               </div>
             </nav>
