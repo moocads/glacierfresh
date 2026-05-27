@@ -24,6 +24,13 @@ export const metadata: Metadata = {
   title: 'Glacier Fresh - Water You Can Trust',
   description: 'GlacierFresh is committed to becoming your all-round water purification and safety ambassador. Premium water filtration systems for home and business.',
   keywords: ['water filtration', 'water purification', 'glacier fresh', 'home water filter', 'business water filter'],
+  icons: {
+    icon: [
+      { url: '/favicon.ico' },
+      { url: '/favicon-16x16.png', type: 'image/png', sizes: '16x16' },
+    ],
+    apple: [{ url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }],
+  },
 }
 
 export const viewport: Viewport = {
