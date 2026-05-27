@@ -11,6 +11,9 @@ import { Textarea } from '@/components/ui/textarea'
 import { cn } from '@/lib/utils'
 
 const RECAPTCHA_SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY?.trim() ?? ''
+const RECAPTCHA_SIZE = (process.env.NEXT_PUBLIC_RECAPTCHA_SIZE?.trim() || 'normal') as
+  | 'invisible'
+  | 'normal'
 
 const CONTACT_INFO = [
   {
@@ -79,6 +82,10 @@ export function ContactContent() {
     e.preventDefault()
     setSubmitError(null)
 
+    // #region agent log
+    fetch('http://127.0.0.1:7289/ingest/6ef269f3-94f9-4e40-b104-75cae335988e',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'9300c0'},body:JSON.stringify({sessionId:'9300c0',runId:'contact-pre',hypothesisId:'H0',location:'components/contact-content.tsx:handleSubmit:start',message:'Client submit started',data:{captchaConfigured,hasSiteKey:Boolean(RECAPTCHA_SITE_KEY)},timestamp:Date.now()})}).catch(()=>{});
+    // #endregion agent log
+
     if (!captchaConfigured) {
       setSubmitError('Verification is not configured. Please contact us by email.')
       return
@@ -92,13 +99,28 @@ export function ContactContent() {
 
     setSubmitting(true)
     try {
-      const token = await widget.executeAsync()
+      // #region agent log
+      fetch('http://127.0.0.1:7289/ingest/6ef269f3-94f9-4e40-b104-75cae335988e',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'9300c0'},body:JSON.stringify({sessionId:'9300c0',runId:'contact-pre',hypothesisId:'H0',location:'components/contact-content.tsx:handleSubmit:before-token',message:'Obtaining recaptcha token',data:{size:RECAPTCHA_SIZE},timestamp:Date.now()})}).catch(()=>{});
+      // #endregion agent log
+
+      const token =
+        RECAPTCHA_SIZE === 'invisible'
+          ? await widget.executeAsync()
+          : (widget.getValue?.() as string | null | undefined)
+
       widget.reset()
 
       if (!token) {
+        // #region agent log
+        fetch('http://127.0.0.1:7289/ingest/6ef269f3-94f9-4e40-b104-75cae335988e',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'9300c0'},body:JSON.stringify({sessionId:'9300c0',runId:'contact-pre',hypothesisId:'H0',location:'components/contact-content.tsx:handleSubmit:no-token',message:'executeAsync() returned empty token',data:{},timestamp:Date.now()})}).catch(()=>{});
+        // #endregion agent log
         setSubmitError('Verification failed. Please try again.')
         return
       }
+
+      // #region agent log
+      fetch('http://127.0.0.1:7289/ingest/6ef269f3-94f9-4e40-b104-75cae335988e',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'9300c0'},body:JSON.stringify({sessionId:'9300c0',runId:'contact-pre',hypothesisId:'H0',location:'components/contact-content.tsx:handleSubmit:after-exec',message:'Got recaptcha token, sending request',data:{tokenLength:String(token).length},timestamp:Date.now()})}).catch(()=>{});
+      // #endregion agent log
 
       const res = await fetch('/api/contact', {
         method: 'POST',
@@ -107,14 +129,27 @@ export function ContactContent() {
       })
       const json = (await res.json()) as { error?: string }
       if (!res.ok) {
+        // #region agent log
+        fetch('http://127.0.0.1:7289/ingest/6ef269f3-94f9-4e40-b104-75cae335988e',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'9300c0'},body:JSON.stringify({sessionId:'9300c0',runId:'contact-pre',hypothesisId:'H0',location:'components/contact-content.tsx:handleSubmit:api-fail',message:'API returned non-OK',data:{status:res.status,hasError:Boolean(json?.error)},timestamp:Date.now()})}).catch(()=>{});
+        // #endregion agent log
         setSubmitError(getSubmitErrorMessage(json) || json.error || 'Submission failed')
         return
       }
+      // #region agent log
+      fetch('http://127.0.0.1:7289/ingest/6ef269f3-94f9-4e40-b104-75cae335988e',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'9300c0'},body:JSON.stringify({sessionId:'9300c0',runId:'contact-pre',hypothesisId:'H0',location:'components/contact-content.tsx:handleSubmit:api-ok',message:'API returned OK',data:{},timestamp:Date.now()})}).catch(()=>{});
+      // #endregion agent log
       setSubmitted(true)
       setForm(emptyForm())
     } catch {
+      // #region agent log
+      fetch('http://127.0.0.1:7289/ingest/6ef269f3-94f9-4e40-b104-75cae335988e',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'9300c0'},body:JSON.stringify({sessionId:'9300c0',runId:'contact-pre',hypothesisId:'H0',location:'components/contact-content.tsx:handleSubmit:catch',message:'Client submit threw',data:{},timestamp:Date.now()})}).catch(()=>{});
+      // #endregion agent log
       recaptchaRef.current?.reset()
-      setSubmitError('Network error. Please try again.')
+      setSubmitError(
+        RECAPTCHA_SIZE === 'invisible'
+          ? 'reCAPTCHA failed to run in invisible mode. Use a site key that supports Invisible reCAPTCHA, or switch to normal mode.'
+          : 'Network error. Please try again.',
+      )
     } finally {
       setSubmitting(false)
     }
@@ -292,7 +327,7 @@ export function ContactContent() {
                       <ReCAPTCHA
                         ref={recaptchaRef}
                         sitekey={RECAPTCHA_SITE_KEY}
-                        size="invisible"
+                        size={RECAPTCHA_SIZE}
                       />
                     )}
 

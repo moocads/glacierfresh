@@ -92,11 +92,19 @@ export async function sendContactEmail(data: ContactFormPayload): Promise<void> 
   const from = normalizeEnvSecret(process.env.SENDGRID_FROM_EMAIL) || DEFAULT_TO
   const to = normalizeEnvSecret(process.env.CONTACT_TO_EMAIL) || DEFAULT_TO
 
+  const toDomain = to.split('@')[1] ?? ''
+  const fromDomain = from.split('@')[1] ?? ''
+  const replyToDomain = data.email.split('@')[1] ?? ''
+
   const { text, html, subject } = buildContactEmailContent(data)
 
   sgMail.setApiKey(apiKey)
 
   try {
+    // #region agent log
+    fetch('http://127.0.0.1:7289/ingest/6ef269f3-94f9-4e40-b104-75cae335988e',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'9300c0'},body:JSON.stringify({sessionId:'9300c0',runId:'contact-pre',hypothesisId:'H5',location:'lib/sendgrid-contact.ts:send:start',message:'Attempting SendGrid send',data:{toDomain,fromDomain,replyToDomain,hasApiKeyPrefix:apiKey.startsWith('SG.')},timestamp:Date.now()})}).catch(()=>{});
+    // #endregion agent log
+
     await sgMail.send({
       to,
       from,
@@ -105,6 +113,10 @@ export async function sendContactEmail(data: ContactFormPayload): Promise<void> 
       text,
       html,
     })
+
+    // #region agent log
+    fetch('http://127.0.0.1:7289/ingest/6ef269f3-94f9-4e40-b104-75cae335988e',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'9300c0'},body:JSON.stringify({sessionId:'9300c0',runId:'contact-pre',hypothesisId:'H5',location:'lib/sendgrid-contact.ts:send:ok',message:'SendGrid send returned successfully',data:{toDomain,fromDomain},timestamp:Date.now()})}).catch(()=>{});
+    // #endregion agent log
   } catch (error) {
     const detail = getSendGridErrorDetail(error)
     const code =
@@ -112,6 +124,11 @@ export async function sendContactEmail(data: ContactFormPayload): Promise<void> 
         ? (error as { code?: number }).code
         : undefined
     console.error('SendGrid send failed:', { code, detail, to, from })
+
+    // #region agent log
+    fetch('http://127.0.0.1:7289/ingest/6ef269f3-94f9-4e40-b104-75cae335988e',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'9300c0'},body:JSON.stringify({sessionId:'9300c0',runId:'contact-pre',hypothesisId:'H5',location:'lib/sendgrid-contact.ts:send:error',message:'SendGrid send threw',data:{code:code??null,detail, toDomain, fromDomain},timestamp:Date.now()})}).catch(()=>{});
+    // #endregion agent log
+
     if (code === 401) {
       throw new Error(
         `SendGrid rejected the API key (401 Unauthorized). Create a new API key with Mail Send permission, update SENDGRID_API_KEY in .env.local, and restart npm run dev. (${detail})`,

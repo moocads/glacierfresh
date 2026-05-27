@@ -1,0 +1,3 @@
+{"sessionId":"9300c0","runId":"contact-pre","hypothesisId":"H0","location":"components/contact-content.tsx:handleSubmit:start","message":"Client submit started","data":{"captchaConfigured":true,"hasSiteKey":true},"timestamp":1779847074704}
+{"sessionId":"9300c0","runId":"contact-pre","hypothesisId":"H0","location":"components/contact-content.tsx:handleSubmit:before-token","message":"Obtaining recaptcha token","data":{"size":"normal"},"timestamp":1779847074704}
+{"sessionId":"9300c0","runId":"contact-pre","hypothesisId":"H0","location":"components/contact-content.tsx:handleSubmit:no-token","message":"executeAsync() returned empty token","data":{},"timestamp":1779847074708}
