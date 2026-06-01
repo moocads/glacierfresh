@@ -40,8 +40,8 @@
     },
     {
       "id": "under-sink-filtration",
-      "name": "Under Sink Filtration",
-      "navLabel": "Under Sink Filtration",
+      "name": "Under Sink Water Filtration System",
+      "navLabel": "Under Sink Water Filtration System",
       "home": {
         "subtitle": "Systems & Cartridges",
         "description": "Water Filtration Systems for your home",
@@ -78,8 +78,8 @@
     },
     {
       "id": "outdoor",
-      "name": "Outdoor",
-      "navLabel": "Outdoor",
+      "name": "Outdoor Water Filtration System",
+      "navLabel": "Outdoor Water Filtration System",
       "home": {
         "subtitle": "Systems & Cartridges",
         "description": "Water Filtration Systems for your outdoor",
@@ -121,7 +121,7 @@
       "home": {
         "subtitle": "NSF/IAPMO 53 certified filters \n compatible with 11 major refrigerator brands.",
         "description": "Water Filtration Systems for your fridge",
-        "bannerImage": "/images/fridge-filters-banner.png",
+        "bannerImage": "/images/fridge-filter-bg.jpg",
         "menuImage": "/images/product/fridge-filters-menu-feature.png",
         "hasOverlay": true,
         "cta": "View All Fridge Filters Products",
@@ -130,7 +130,7 @@
       "products": [
         {
           "productName": "Fridge Filter",
-          "productImage": "/images/product/fridge-filters-menu-feature.png",
+          "productImage": "/images/product/fridge-filter-bg.jpg",
           "imageAlt": "Fridge filter",
           "model": "Model: GF-FR-100",
           "description": "Protect Against: Sediment, chlorine taste and odor, and particulates in hose and non-potable hookups.",
@@ -141,12 +141,12 @@
     },
     {
       "id": "countertop-filters",
-      "name": "Countertop Filters",
-      "navLabel": "Countertop Filters",
+      "name": "Replacement Filters",
+      "navLabel": "Replacement Filters",
       "home": {
         "subtitle": "Systems & Cartridges",
         "description": "Water Filtration Systems for your countertop",
-        "bannerImage": "/images/countertop-filters-banner.png",
+        "bannerImage": "/images/replacement-filters-bg.jpg",
         "menuImage": "/images/product/counter-top-filter-menu-image.webp",
         "hasOverlay": true,
         "cta": "View All Countertop Filters Products",
@@ -157,6 +157,31 @@
           "productName": "Countertop Filter",
           "productImage": "/images/product/countertop-filters-menu-feature.png",
           "imageAlt": "Countertop filter",
+          "model": "Model: GF-CT-100",
+          "description": "Protect Against: Sediment, chlorine taste and odor, and particulates in hose and non-potable hookups.",
+          "cta": "Learn More",
+          "objectPosition": "center"
+        }
+      ]
+    },
+    {
+      "id": "countertop-water-filter-system",
+      "name": "Countertop Water Filter System",
+      "navLabel": "Countertop Water Filter System",
+      "home": {
+        "subtitle": "Systems & Cartridges",
+        "description": "Water Filtration Systems for your countertop",
+        "bannerImage": "/images/counter-top-water-filter-bg.jpg",
+        "menuImage": "/images/product/countertop-water-filter-system-menu-feature.png",
+        "hasOverlay": true,
+        "cta": "View All Countertop Water Filter System Products",
+        "ctaHref": "/products#countertop-water-filter-system"
+      },
+      "products": [
+        {
+          "productName": "Countertop Water Filter System",
+          "productImage": "/images/product/countertop-water-filter-system-menu-feature.png",
+          "imageAlt": "Countertop water filter system",
           "model": "Model: GF-CT-100",
           "description": "Protect Against: Sediment, chlorine taste and odor, and particulates in hose and non-potable hookups.",
           "cta": "Learn More",
