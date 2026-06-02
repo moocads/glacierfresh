@@ -38,6 +38,8 @@ export type ProductsFileJson = {
 
 export type CatalogProduct = {
   badges?: string[]
+  /** Display name (Strapi `name` or JSON `productName`). */
+  name?: string
   title: string
   model?: string
   bullets?: string[]
@@ -76,6 +78,7 @@ function normalizeObjectPosition(
 
 function mapProduct(p: ProductJson): CatalogProduct {
   return {
+    name: p.productName,
     title: p.productName,
     imageSrc: p.productImage,
     imageAlt: p.imageAlt ?? p.productName,

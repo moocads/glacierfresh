@@ -134,6 +134,7 @@ function ProductShowcaseRow({
   imageFirst,
   badges,
   title,
+  productName,
   model,
   bullets,
   specs,
@@ -147,6 +148,7 @@ function ProductShowcaseRow({
   imageFirst: boolean
   badges?: string[]
   title: string
+  productName: string
   model?: string
   bullets?: string[]
   specs?: { label: string; value: string }[]
@@ -169,9 +171,15 @@ function ProductShowcaseRow({
           ))}
         </div>
       )}
-      <h3 className="font-heading text-2xl font-bold tracking-tight text-secondary md:text-3xl">
-        {model ?? title}
-      </h3>
+      <div>
+        <h3 className="font-heading text-2xl font-bold tracking-tight text-secondary md:text-3xl">
+          {productName}
+        </h3>
+  
+        {model && (
+          <p className="mt-1 font-heading text-lg font-semibold text-primary md:text-xl">Model: {model}</p>
+        )}
+      </div>
 
       {description && <ProductDescriptionClamp description={description} />}
       {specs && specs.length > 0 && (
@@ -302,6 +310,7 @@ export function ProductsCatalog() {
             .filter((p) => p.categorySlug === cmsCat.id)
             .map(
               (p): ProductWithSpecs => ({
+                name: p.name,
                 title: p.title,
                 model: p.model,
                 description: p.description,
@@ -416,6 +425,7 @@ export function ProductsCatalog() {
                   imageFirst={index % 2 === 0}
                   badges={product.badges}
                   title={product.title}
+                  productName={product.name ?? product.title}
                   model={product.model}
                   bullets={product.bullets}
                   specs={product.specs}

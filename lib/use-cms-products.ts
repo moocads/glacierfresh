@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 
 export type CmsProduct = {
   id: number
+  name?: string
   title: string
   model?: string
   description?: string
@@ -16,6 +17,7 @@ export type CmsProduct = {
 
 type CmsApiProduct = {
   id: number
+  name?: string
   model?: string
   description?: string
   category?: {
@@ -57,24 +59,31 @@ export function useCmsProducts() {
         if (!Array.isArray(json.data)) return
         if (cancelled) return
 
-        const mapped: CmsProduct[] = json.data.map((p) => ({
+        const mapped: CmsProduct[] = json.data.map((p) => {
+          const name = p.name?.trim() || undefined
+          const model = p.model?.trim() || undefined
+          const displayTitle = name ?? model ?? `Product ${p.id}`
+
+          return {
           id: p.id,
-          title: p.model ?? `Product ${p.id}`,
-          model: p.model,
+          name,
+          title: displayTitle,
+          model,
           description: p.description,
           categorySlug: p.category?.slug,
           imageSrc:
             p.feature_image?.formats?.medium?.url ??
             p.feature_image?.formats?.small?.url ??
             p.feature_image?.url,
-          imageAlt: p.feature_image?.alternativeText ?? p.model ?? `Product ${p.id}`,
+          imageAlt: p.feature_image?.alternativeText ?? displayTitle,
           specs: (p.specs ?? [])
             .filter((s) => s.label && s.value)
             .map((s) => ({ label: s.label!, value: s.value! })),
           accessories: (p.accessories ?? [])
             .map((a) => a.Value?.trim())
             .filter((value): value is string => Boolean(value)),
-        }))
+        }
+        })
 
         setProducts(mapped)
       } catch {
