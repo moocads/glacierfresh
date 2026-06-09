@@ -35,7 +35,7 @@ export function ProductsCatalog() {
       <section className="sticky top-20 z-40 border-b border-border bg-background/95 py-3 backdrop-blur supports-[backdrop-filter]:bg-background/80">
         <div className="container mx-auto px-4 lg:px-8">
           <div
-            className="flex gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] md:gap-3 [&::-webkit-scrollbar]:hidden"
+            className="flex flex-wrap gap-2 md:gap-3"
             role="tablist"
             aria-label="Product categories"
           >
@@ -46,7 +46,7 @@ export function ProductsCatalog() {
                 role="tab"
                 aria-selected={activeCategory?.id === category.id}
                 className={cn(
-                  'shrink-0 rounded-full border px-4 py-2 text-sm font-medium transition-colors md:px-6 md:py-2.5 md:text-base',
+                  'rounded-full border px-2 py-2 text-sm font-medium transition-colors md:px-2 md:py-2 ',
                   activeCategory?.id === category.id
                     ? 'border-primary bg-primary text-primary-foreground'
                     : 'border-transparent bg-muted/60 text-secondary hover:border-primary/30 hover:bg-muted hover:text-primary',
