@@ -11,7 +11,7 @@
         "menuImage": "/images/product/whole-house-solution.jpg",
         "hasOverlay": true,
         "cta": "View All Whole House Products",
-        "ctaHref": "/products#whole-house-solution"  
+        "ctaHref": "/products/whole-house-solution"  
       },
       "products": [
         {
@@ -49,7 +49,7 @@
         "menuImage": "/images/product/u03-800gpd.png",
         "hasOverlay": false,
         "cta": "View All Under Sink Products",
-        "ctaHref": "/products#under-sink-filtration"
+        "ctaHref": "/products/under-sink-filtration"
       },
       "products": [
         {
@@ -87,7 +87,7 @@
         "menuImage": "/images/product/RV03_700-outdoor.webp",
         "hasOverlay": true,
         "cta": "View All Outdoor Products",
-        "ctaHref": "/products#outdoor"
+        "ctaHref": "/products/outdoor"
       },
       "products": [
         {
@@ -125,7 +125,7 @@
         "menuImage": "/images/product/fridge-filters-menu-feature.png",
         "hasOverlay": true,
         "cta": "View All Fridge Filters Products",
-        "ctaHref": "/products#fridge-filters"
+        "ctaHref": "/products/fridge-filters"
       },
       "products": [
         {
@@ -150,7 +150,7 @@
         "menuImage": "/images/product/counter-top-filter-menu-image.webp",
         "hasOverlay": true,
         "cta": "View All Countertop Filters Products",
-        "ctaHref": "/products#countertop-filters"
+        "ctaHref": "/products/countertop-filters"
       },
       "products": [
         {
@@ -175,7 +175,7 @@
         "menuImage": "/images/product/countertop-water-filter-system-menu-feature.png",
         "hasOverlay": true,
         "cta": "View All Countertop Water Filter System Products",
-        "ctaHref": "/products#countertop-water-filter-system"
+        "ctaHref": "/products/countertop-water-filter-system"
       },
       "products": [
         {

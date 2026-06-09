@@ -25,7 +25,7 @@ export function ProductsMegaMenuContent({
     >
       <div className="grid gap-2 md:grid-cols-6 md:gap-0">
         {categories.map((cat, colIndex) => {
-          const menuImage = cat.menuImage ?? ''
+          const menuImage = cat.menuImage ?? '/images/products.png'
           const isSvg = menuImage.endsWith('.svg')
 
           return (
@@ -39,7 +39,7 @@ export function ProductsMegaMenuContent({
             >
               <div className="grid grid-cols-1 gap-2 sm:items-start ">
                 <Link
-                  href={`/products#${cat.id}`}
+                  href={`/products/${cat.id}`}
                   onClick={onNavigate}
                   className="group block min-w-0"
                 >

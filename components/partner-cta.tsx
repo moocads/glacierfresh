@@ -22,9 +22,9 @@ export function PartnerCTA() {
           <div className="relative grid items-center lg:grid-cols-3">
             {/* Left - Image Placeholder */}
             <div className="relative h-full lg:col-span-1">
-              <div className="absolute bottom-0 left-30">
+              <div className="flex justify-center pt-8 lg:absolute lg:bottom-0 lg:left-30 lg:pt-0">
                   <div className="flex h-full items-end justify-center">
-                    <Image src="/images/partner.png" alt="Glacier Fresh" width={300} height={300} />
+                    <Image src="/images/partner.png" alt="Glacier Fresh" width={300} height={300} className="h-auto w-44 lg:w-[300px]" />
                   </div>
             </div>
             </div>

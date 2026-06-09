@@ -3,7 +3,9 @@ import productsJson from '@/data/products.json'
 /** Shape stored in `data/products.json` — edit that file to change categories and products. */
 export type ProductJson = {
   productName: string
+  slug?: string
   productImage: string
+  galleryImages?: string[]
   imageAlt?: string
   badges?: string[]
   model?: string
@@ -40,12 +42,14 @@ export type CatalogProduct = {
   badges?: string[]
   /** Display name (Strapi `name` or JSON `productName`). */
   name?: string
+  slug: string
   title: string
   model?: string
   bullets?: string[]
   description?: string
   cta?: string
   imageSrc: string
+  galleryImages: string[]
   imageAlt: string
   objectPosition: 'left center' | 'right center' | 'center'
 }
@@ -76,11 +80,23 @@ function normalizeObjectPosition(
   return 'center'
 }
 
+export function slugifyProduct(value: string): string {
+  return value
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+}
+
 function mapProduct(p: ProductJson): CatalogProduct {
+  const imageSrc = p.productImage
+
   return {
     name: p.productName,
+    slug: p.slug ?? slugifyProduct(p.model ?? p.productName),
     title: p.productName,
-    imageSrc: p.productImage,
+    imageSrc,
+    galleryImages: p.galleryImages?.length ? p.galleryImages : [imageSrc],
     imageAlt: p.imageAlt ?? p.productName,
     badges: p.badges,
     model: p.model,
@@ -127,7 +143,7 @@ export function getHomeProductLineCards(): HomeProductLineCard[] {
       subtitle: c.home!.subtitle,
       description: c.home!.description,
       cta: c.home!.cta,
-      ctaHref: c.home!.ctaHref ?? `/products#${c.id}`,
+      ctaHref: c.home!.ctaHref ?? `/products/${c.id}`,
       image: c.home!.bannerImage,
       hasOverlay: c.home!.hasOverlay ?? true,
     }))

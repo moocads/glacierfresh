@@ -133,7 +133,7 @@ export function WhyChoose() {
             {/* Certifications */}
             <div className="mt-10 flex flex-wrap items-start justify-start gap-4">
               {certifications.map((cert) => (
-                  <Image  className="flex w-20 items-start justify-center rounded-lg" src={cert.icon} alt={cert.name} width={80} height={80} />
+                  <Image key={cert.name} className="flex w-20 items-start justify-center rounded-lg" src={cert.icon} alt={cert.name} width={80} height={80} />
               ))}
             </div>
           </motion.div>

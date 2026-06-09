@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { useCallback, useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronDown, Menu, X } from 'lucide-react'
@@ -20,8 +21,18 @@ const navItems = [
 ]
 
 const MENU_CLOSE_DELAY_MS = 180
+const navLinkClassName =
+  'text-sm font-medium transition-colors hover:text-primary'
+const activeNavLinkClassName = 'text-primary'
+const inactiveNavLinkClassName = 'text-secondary'
+
+function isNavItemActive(pathname: string, href: string) {
+  if (href === '/') return pathname === '/'
+  return pathname === href || pathname.startsWith(`${href}/`)
+}
 
 export function Header() {
+  const pathname = usePathname()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [productsMenuOpen, setProductsMenuOpen] = useState(false)
   const [mobileProductsOpen, setMobileProductsOpen] = useState(false)
@@ -70,7 +81,12 @@ export function Header() {
               <Link
                 key={item.label}
                 href={item.href}
-                className="text-sm font-medium text-secondary transition-colors hover:text-primary"
+                className={cn(
+                  navLinkClassName,
+                  isNavItemActive(pathname, item.href)
+                    ? activeNavLinkClassName
+                    : inactiveNavLinkClassName,
+                )}
               >
                 {item.label}
               </Link>
@@ -84,8 +100,11 @@ export function Header() {
               <Link
                 href="/products"
                 className={cn(
-                  'inline-flex items-center gap-1 text-sm font-medium transition-colors hover:text-primary',
-                  productsMenuOpen ? 'text-primary' : 'text-secondary',
+                  'inline-flex items-center gap-1',
+                  navLinkClassName,
+                  productsMenuOpen || isNavItemActive(pathname, '/products')
+                    ? activeNavLinkClassName
+                    : inactiveNavLinkClassName,
                 )}
                 aria-haspopup="true"
                 aria-expanded={productsMenuOpen}
@@ -105,7 +124,12 @@ export function Header() {
               <Link
                 key={item.label}
                 href={item.href}
-                className="text-sm font-medium text-secondary transition-colors hover:text-primary"
+                className={cn(
+                  navLinkClassName,
+                  isNavItemActive(pathname, item.href)
+                    ? activeNavLinkClassName
+                    : inactiveNavLinkClassName,
+                )}
               >
                 {item.label}
               </Link>
@@ -168,14 +192,26 @@ export function Header() {
             <nav className="container mx-auto flex flex-col gap-1 px-4 py-6" aria-label="Mobile">
               <Link
                 href="/"
-                className="py-2 text-sm font-medium text-secondary transition-colors hover:text-primary"
+                className={cn(
+                  'py-2',
+                  navLinkClassName,
+                  isNavItemActive(pathname, '/')
+                    ? activeNavLinkClassName
+                    : inactiveNavLinkClassName,
+                )}
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Home
               </Link>
               <Link
                 href="/about"
-                className="py-2 text-sm font-medium text-secondary transition-colors hover:text-primary"
+                className={cn(
+                  'py-2',
+                  navLinkClassName,
+                  isNavItemActive(pathname, '/about')
+                    ? activeNavLinkClassName
+                    : inactiveNavLinkClassName,
+                )}
                 onClick={() => setMobileMenuOpen(false)}
               >
                 About
@@ -185,7 +221,12 @@ export function Header() {
                 <div className="flex items-center justify-between py-2">
                   <Link
                     href="/products"
-                    className="text-sm font-medium text-secondary transition-colors hover:text-primary"
+                    className={cn(
+                      navLinkClassName,
+                      isNavItemActive(pathname, '/products')
+                        ? activeNavLinkClassName
+                        : inactiveNavLinkClassName,
+                    )}
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     Products
@@ -206,7 +247,7 @@ export function Header() {
                   {categories.map((cat) => (
                     <div key={cat.id}>
                       <Link
-                        href={`/products#${cat.id}`}
+                        href={`/products/${cat.id}`}
                         className="font-heading text-sm font-semibold text-primary"
                         onClick={() => {
                           setMobileMenuOpen(false)
@@ -222,14 +263,26 @@ export function Header() {
 
               <Link
                 href="/partners"
-                className="py-2 text-sm font-medium text-secondary transition-colors hover:text-primary"
+                className={cn(
+                  'py-2',
+                  navLinkClassName,
+                  isNavItemActive(pathname, '/partners')
+                    ? activeNavLinkClassName
+                    : inactiveNavLinkClassName,
+                )}
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Partners
               </Link>
               <Link
                 href="/support"
-                className="py-2 text-sm font-medium text-secondary transition-colors hover:text-primary"
+                className={cn(
+                  'py-2',
+                  navLinkClassName,
+                  isNavItemActive(pathname, '/support')
+                    ? activeNavLinkClassName
+                    : inactiveNavLinkClassName,
+                )}
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Support
