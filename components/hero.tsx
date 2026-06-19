@@ -7,7 +7,7 @@ import Link from 'next/link'
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden bg-white py-12 lg:py-20">
+    <section className="relative overflow-hidden bg-white py-12 lg:py-20 border-b border-border">
 
       <div className="container mx-auto px-4 lg:px-8">
         <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-12">
@@ -19,7 +19,7 @@ export function Hero() {
             className="relative z-10"
           >
             <h1 className="text-4xl font-heavy text-primary md:text-6xl">
-              From Glacier to Your Glass. 
+              From Glacier <br/>to Your Glass. 
             </h1>
             <h2 className="mt-2 font-heading text-2xl font-bold text-secondary md:text-2xl ">
               Trusted by wholesalers, dealers, and installers.
