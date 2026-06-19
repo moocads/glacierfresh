@@ -31,7 +31,7 @@ export type CategoryJson = {
   name: string
   navLabel?: string
   home?: CategoryHomeJson
-  products: ProductJson[]
+  products?: ProductJson[]
 }
 
 export type ProductsFileJson = {
@@ -113,7 +113,7 @@ function mapCategory(c: CategoryJson): CatalogCategory {
     title: c.name,
     navLabel: c.navLabel ?? c.name,
     home: c.home,
-    products: c.products.map(mapProduct),
+    products: (c.products ?? []).map(mapProduct),
   }
 }
 

@@ -42,6 +42,10 @@ export function Hero() {
                 <Link href="/support">Product Catalog</Link>
 
               </Button>
+      
+            </div>
+            <div className="mt-8 flex flex-wrap gap-4">
+              <Image src="/images/certificate/water-quality-certificate.png" alt="Glacier Fresh Water Quality Certificate" width={150} height={100} />
             </div>
           </motion.div>
 
