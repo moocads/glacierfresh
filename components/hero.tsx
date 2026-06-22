@@ -44,8 +44,13 @@ export function Hero() {
               </Button>
       
             </div>
-            <div className="mt-8 flex flex-wrap gap-4">
-              <Image src="/images/certificate/water-quality-certificate.png" alt="Glacier Fresh Water Quality Certificate" width={150} height={100} />
+            <h3 className="mt-8 w-fit rounded-full bg-primary-50/50 px-2 py-0 text-md font-medium text-primary">
+              Industry Associations & Memberships
+            </h3>
+            <div className="mt-2 flex flex-wrap gap-4">
+              <Image src="/images/certificate/water-quality-certificate.png" alt="Glacier Fresh Water Quality Certificate" width={150} height={100} className="rounded-lg border border-border p-2" />
+              <Image src="/images/certificate/canada-water-quality-association.png" alt="Glacier Fresh Water Quality Certificate" width={150} height={100} className="rounded-lg border border-border p-2" />
+              <Image src="/images/certificate/outdoor-industry-association.png" alt="Glacier Fresh Water Quality Certificate" width={150} height={100} className="rounded-lg border border-border p-2" />
             </div>
           </motion.div>
 

@@ -14,6 +14,8 @@ const certifications = [
   { name: 'FDA', label: 'FDA', icon: '/images/certificate/fda.png' },
   { name: 'FCC', label: 'FCC', icon: '/images/certificate/fcc.png' },
   { name: 'ISO', label: 'ISO', icon: '/images/certificate/iso.png' },
+  { name: 'NSF', label: 'NSF', icon: '/images/certificate/nsf.png' },
+  { name: 'IAPMO', label: 'IAPMO', icon: '/images/certificate/iapmo-logo.png' },
   { name: 'SGS', label: 'SGS', icon: '/images/certificate/sgs.png' },
 ]
 
@@ -167,34 +169,6 @@ export function WhyChoose() {
           </motion.div>
         </div>
 
-        <div className="mt-12 rounded-lg bg-primary-50/50 p-6 lg:mt-16 lg:p-10">
-          <p className="mx-auto max-w-4xl text-center text-sm leading-relaxed text-primary lg:text-base">
-            Every Glacier Fresh filter is tested in our NSF-certified lab and must pass 17 quality
-            checks before it ships. Our commitment to water safety has earned NSF/ANSI &amp; IAPMO
-            certifications
-          </p>
-
-          <div className="mt-8 grid grid-cols-2 gap-8 md:grid-cols-4 lg:mt-10 lg:gap-10">
-            {certificationDetails.map((cert) => (
-              <div key={cert.name} className="flex flex-col items-center text-center">
-                <div className="flex h-16 w-full items-center justify-center">
-                  <div className="bg-white rounded-lg p-2 border border-primary-100">
-                  <Image
-                    src={cert.icon}
-                    alt={cert.name}
-                    width={160}
-                    height={64}
-                    className="max-h-14 w-auto object-contain"
-                  />
-                  </div>
-                </div>
-                <p className="mt-3 text-xs leading-relaxed text-secondary md:text-sm">
-                  {cert.description}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
       </div>
     </section>
   )
