@@ -54,7 +54,7 @@ export function ProductDetailContent({
         </div>
 
         <div className="mb-6 lg:hidden">
-          <h1 className="font-heading text-3xl font-heavy text-secondary">
+          <h1 className="font-heading text-3xl font-extrabold text-secondary">
             {title}
           </h1>
           {product.model && (
@@ -74,7 +74,7 @@ export function ProductDetailContent({
               <p className="text-sm font-semibold uppercase tracking-wide text-primary">
                 {category.title}
               </p>
-              <h1 className="mt-3 font-heading text-5xl font-heavy text-secondary">
+              <h1 className="mt-3 font-heading text-3xl font-extrabold text-secondary">
                 {title}
               </h1>
               {product.model && (
