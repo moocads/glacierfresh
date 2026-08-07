@@ -11,8 +11,9 @@ export type WholeHouseProduct = {
   gauge?: string
   color?: string
   media?: string
-  removes?: string
   micron?: string
+  capacity?: string
+  tags?: string[]
   details?: {
     imageSrc?: string
     galleryImages: string[]
@@ -55,13 +56,18 @@ export const WHOLE_HOUSE_FACETS: Record<
       options: ['¾" NPT', '1" NPT'],
     },
     { key: 'gauge', label: 'Pressure gauge', options: ['Yes', 'No'] },
-    { key: 'color', label: 'Color', options: ['White', 'Clear', 'Black'] },
+    { key: 'color', label: 'Color', options: ['White', 'Clear', 'Black', 'Blue'] },
   ],
   cartridge: [
     {
-      key: 'removes',
-      label: 'Removes',
-      options: ['Sediment', 'Chlorine, taste & odor', 'Scale'],
+      key: 'tags',
+      label: 'Filtration targets',
+      options: ['Sediment', 'Rust', 'Coarse Sand', 'Sand', 'Fine Sand'],
+    },
+    {
+      key: 'capacity',
+      label: 'Capacity',
+      options: ['3–6 months', '2–4 months', '1–3 months'],
     },
     {
       key: 'media',

@@ -20,6 +20,11 @@ export function WholeHouseProductCard({
   product,
   category,
 }: WholeHouseProductCardProps) {
+  const visibleTags = product.tags?.slice(0, 3) ?? []
+  const remainingTagCount = Math.max(
+    (product.tags?.length ?? 0) - visibleTags.length,
+    0,
+  )
   const specs =
     category === 'housing'
       ? [
@@ -33,6 +38,7 @@ export function WholeHouseProductCard({
           product.media,
           `${product.length} × ${product.diameter}`,
           product.micron,
+          product.capacity,
         ]
 
   return (
@@ -66,7 +72,7 @@ export function WholeHouseProductCard({
               />
             </div>
             <span className="absolute left-3 top-3 rounded-full border border-primary-100 bg-white px-2.5 py-1 text-[11px] font-semibold text-primary-700">
-              {product.removes?.split(',')[0] ?? 'Cartridge'}
+              {product.tags?.[0] ?? 'Cartridge'}
             </span>
           </>
         )}
@@ -89,6 +95,26 @@ export function WholeHouseProductCard({
             </span>
           ))}
         </div>
+        {category === 'cartridge' && visibleTags.length > 0 ? (
+          <div
+            className="mt-2.5 flex flex-wrap gap-1.5"
+            aria-label="Filtration targets"
+          >
+            {visibleTags.map((tag) => (
+              <span
+                key={tag}
+                className="rounded-full border border-primary-100 bg-primary-50 px-2 py-1 text-[11px] font-medium text-primary-700"
+              >
+                {tag}
+              </span>
+            ))}
+            {remainingTagCount > 0 ? (
+              <span className="rounded-full border border-primary-100 bg-white px-2 py-1 text-[11px] font-medium text-primary-700">
+                +{remainingTagCount}
+              </span>
+            ) : null}
+          </div>
+        ) : null}
         <Link
           href={`/products/whole-house-solution/${product.slug}`}
           className="mt-auto inline-flex w-fit items-center gap-1.5 pt-4 text-sm font-semibold text-primary underline-offset-4 hover:underline"

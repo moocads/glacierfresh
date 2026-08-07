@@ -24,7 +24,7 @@ export function WholeHouseProductVisual({
         <span className="rounded-full border border-primary-100 bg-white/90 px-3 py-1.5 text-xs font-semibold text-primary-700 shadow-sm">
           {category === 'housing'
             ? 'Housing'
-            : product.removes?.split(',')[0] ?? 'Cartridge'}
+            : product.tags?.[0] ?? 'Cartridge'}
         </span>
         <span className="font-mono text-xs font-medium text-muted-foreground">
           {product.model}

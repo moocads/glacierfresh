@@ -23,9 +23,10 @@ export function WholeHouseCatalog() {
   const facets = WHOLE_HOUSE_FACETS[category]
   const products = productsByCategory[category]
 
-  const facetValue = (product: WholeHouseProduct, key: string) => {
+  const facetValues = (product: WholeHouseProduct, key: string) => {
     const value = product[key as keyof WholeHouseProduct]
-    return typeof value === 'string' ? value : undefined
+    if (typeof value === 'string') return [value]
+    return Array.isArray(value) ? value : []
   }
 
   const filteredProducts = useMemo(
@@ -35,7 +36,9 @@ export function WholeHouseCatalog() {
           const selectedValues = selected[facet.key]
           return (
             !selectedValues?.length ||
-            selectedValues.includes(facetValue(product, facet.key) ?? '')
+            selectedValues.some((value) =>
+              facetValues(product, facet.key).includes(value),
+            )
           )
         }),
       ),
@@ -45,11 +48,15 @@ export function WholeHouseCatalog() {
   function countFor(facetKey: string, value: string) {
     return products.filter((product) =>
       facets.every((facet) => {
-        if (facet.key === facetKey) return facetValue(product, facet.key) === value
+        if (facet.key === facetKey) {
+          return facetValues(product, facet.key).includes(value)
+        }
         const selectedValues = selected[facet.key]
         return (
           !selectedValues?.length ||
-          selectedValues.includes(facetValue(product, facet.key) ?? '')
+          selectedValues.some((selectedValue) =>
+            facetValues(product, facet.key).includes(selectedValue),
+          )
         )
       }),
     ).length

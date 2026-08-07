@@ -34,13 +34,17 @@ function getProductDescription(
     return `A ${stageDescription} designed for point-of-entry water filtration. Its ${product.length} × ${product.diameter} format and ${product.connection} connection make it easy to match with a compatible Glacier Fresh whole-house cartridge.`
   }
 
-  return `A ${(product.media ?? 'whole-house').toLowerCase()} cartridge designed for ${(product.removes ?? 'water filtration').toLowerCase()}. The ${product.length} × ${product.diameter} format fits a matching Glacier Fresh housing and is rated at ${product.micron}.`
+  const targets = product.tags?.length
+    ? product.tags.join(', ').toLowerCase()
+    : 'whole-house water filtration'
+
+  return `A ${(product.media ?? 'whole-house').toLowerCase()} cartridge designed for ${targets}. The ${product.length} × ${product.diameter} format fits a matching Glacier Fresh housing and is rated at ${product.micron}.`
 }
 
 function getSpecifications(
   product: WholeHouseProduct,
   category: WholeHouseCategory,
-) {
+): Array<[string, string | undefined]> {
   if (category === 'housing') {
     return [
       ['Model', product.model],
@@ -58,7 +62,8 @@ function getSpecifications(
     ['Model', product.model],
     ['Product family', 'Whole House Solution'],
     ['Media', product.media],
-    ['Designed to remove', product.removes],
+    ['Capacity', product.capacity],
+    ['Filtration targets', product.tags?.join(', ')],
     ['Micron rating', product.micron],
     ['Length', product.length],
     ['Diameter', product.diameter],
@@ -115,9 +120,21 @@ export function WholeHouseProductDetail({
 
   const { product, category } = result
   const categoryLabel = category === 'housing' ? 'Housing' : 'Cartridge'
-  const specifications = product.details?.specs.length
-    ? product.details.specs.map((spec) => [spec.label, spec.value])
-    : getSpecifications(product, category)
+  const defaultSpecifications = getSpecifications(product, category)
+  const cmsSpecifications = product.details?.specs ?? []
+  const cmsSpecificationLabels = new Set(
+    cmsSpecifications.map((spec) => spec.label.trim().toLowerCase()),
+  )
+  const specifications = cmsSpecifications.length
+    ? [
+        ...cmsSpecifications.map(
+          (spec) => [spec.label, spec.value] as [string, string],
+        ),
+        ...defaultSpecifications.filter(
+          ([label]) => !cmsSpecificationLabels.has(label.toLowerCase()),
+        ),
+      ]
+    : defaultSpecifications
   const compatibility =
     category === 'housing'
       ? `${product.length} × ${product.diameter} whole-house cartridges`
@@ -176,6 +193,24 @@ export function WholeHouseProductDetail({
               </p>
             </section>
 
+            {category === 'cartridge' && product.tags?.length ? (
+              <section>
+                <h2 className="font-heading text-2xl font-bold text-secondary">
+                  Filtration Targets
+                </h2>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {product.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="rounded-full border border-primary-100 bg-primary-50 px-3 py-1.5 text-sm font-semibold text-primary-700"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </section>
+            ) : null}
+
             <section className="grid gap-3 sm:grid-cols-2">
               <div className="rounded-xl border border-primary-100 bg-primary-50/45 p-4">
                 <div className="flex items-center gap-2 text-primary">
@@ -194,11 +229,15 @@ export function WholeHouseProductDetail({
                     <Droplets className="size-5" />
                   )}
                   <h2 className="font-heading font-bold text-secondary">
-                    {category === 'housing' ? 'Connection' : 'Function'}
+                    {category === 'housing'
+                      ? 'Connection'
+                      : 'Filtration targets'}
                   </h2>
                 </div>
                 <p className="mt-2 text-sm leading-6 text-secondary-300">
-                  {category === 'housing' ? product.connection : product.removes}
+                  {category === 'housing'
+                    ? product.connection
+                    : product.tags?.join(', ') || 'Not specified'}
                 </p>
               </div>
             </section>

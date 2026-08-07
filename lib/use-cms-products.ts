@@ -28,8 +28,8 @@ export type CmsWholeHouseSpec = {
   diameter?: 'inch_2_5' | 'inch_4_5' | null
   connection?: 'npt_3_4' | 'npt_1' | null
   pressure_gauge?: boolean | null
-  color?: 'white' | 'clear' | 'black' | null
-  removes?: 'sediment' | 'chlorine_taste_odor' | 'scale' | null
+  color?: 'white' | 'clear' | 'black' | 'blue' | null
+  capacity?: 'm3_6' | 'm2_4' | 'm1_3' | null
   filtration_media?:
     | 'melt_blown'
     | 'pleated'
@@ -38,6 +38,11 @@ export type CmsWholeHouseSpec = {
     | 'anti_scale'
     | null
   micron_rating?: string | null
+  Sediment?: boolean | null
+  Rust?: boolean | null
+  Coarse_Sand?: boolean | null
+  Sand?: boolean | null
+  Fine_Sand?: boolean | null
 }
 
 type CmsApiProduct = {

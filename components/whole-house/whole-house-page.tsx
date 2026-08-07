@@ -31,9 +31,8 @@ export function WholeHousePage() {
             Whole house water filtration
           </h1>
           <p className="mt-3 max-w-[650px] text-[15px] leading-7 text-secondary-300">
-            Sediment, chlorine, and scale protection for the whole home. Pick a
-            housing for your flow and duty, then the cartridge for what you need
-            to remove.
+            Choose a housing for your flow and duty, then match a cartridge by
+            filtration media, particle targets, size, and service life.
           </p>
           <div className="mt-5 flex flex-wrap gap-2">
             {featureChips.map((chip) => (

@@ -42,11 +42,22 @@ const connectionLabels: Record<
   npt_1: '1" NPT',
 }
 
-const removesLabels: Record<NonNullable<CmsWholeHouseSpec['removes']>, string> = {
-  sediment: 'Sediment',
-  chlorine_taste_odor: 'Chlorine, taste & odor',
-  scale: 'Scale',
+const capacityLabels: Record<
+  NonNullable<CmsWholeHouseSpec['capacity']>,
+  string
+> = {
+  m3_6: '3–6 months',
+  m2_4: '2–4 months',
+  m1_3: '1–3 months',
 }
+
+const tagFields = [
+  ['Sediment', 'Sediment'],
+  ['Rust', 'Rust'],
+  ['Coarse_Sand', 'Coarse Sand'],
+  ['Sand', 'Sand'],
+  ['Fine_Sand', 'Fine Sand'],
+] as const satisfies ReadonlyArray<readonly [keyof CmsWholeHouseSpec, string]>
 
 const mediaLabels: Record<
   NonNullable<CmsWholeHouseSpec['filtration_media']>,
@@ -121,8 +132,11 @@ function mapCmsProduct(product: CmsProduct): {
     product: {
       ...shared,
       media: media ?? 'Not specified',
-      removes: labelFor(spec.removes, removesLabels) ?? 'Not specified',
       micron: spec.micron_rating?.trim() || 'Not specified',
+      capacity: labelFor(spec.capacity, capacityLabels),
+      tags: tagFields
+        .filter(([field]) => spec[field] === true)
+        .map(([, label]) => label),
     },
   }
 }
