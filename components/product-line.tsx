@@ -76,7 +76,7 @@ export function ProductLine() {
                         className="mt-4 w-fit rounded-full border-white bg-transparent text-white hover:bg-white hover:text-secondary"
                         asChild
                       >
-                        <Link href={product.ctaHref}>View All Products</Link>
+                        <Link href={`/products/${product.id}`}>View All Products</Link>
                       </Button>
                     )}
                   </div>
