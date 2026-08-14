@@ -32,7 +32,7 @@ export function Hero() {
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
               <Button className="rounded-full bg-secondary px-6 py-3 text-secondary-foreground hover:bg-secondary-600">
-                Get in Touch
+                <Link href="/contact">Get in Touch</Link>
               </Button>
               <Button
                 variant="outline"
