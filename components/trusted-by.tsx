@@ -7,9 +7,9 @@ const retailers = [
   { name: 'Amazon', logo: 'amazon', icon: '/images/partners/amazon.png', url: 'https://www.amazon.com' },
   { name: 'The Home Depot', logo: 'home-depot', icon: '/images/partners/homedepot.png', url: 'https://www.homedepot.com' },
   { name: "Lowe's", logo: 'lowes', icon: '/images/partners/lowes.png', url: 'https://www. lowes.com' },
-  { name: 'Costco', logo: 'costco', icon: '/images/partners/costco.png', url: 'https://www.costco.com' },
+  { name: 'Ace Hardware', logo: 'ace', icon: '/images/partners/ace.png', url: 'https://www.acehardware.com/' },
   { name: 'Walmart', logo: 'walmart', icon: '/images/partners/walmart.png', url: 'https://www.walmart.com' },
-  { name: 'Best Buy', logo: 'bestbuy', icon: '/images/partners/bestbuy.png', url: 'https://www.bestbuy.com' },
+   { name: 'Home Hardware', logo: 'home-hardware', icon: '/images/partners/homehardware.png', url: 'https://www.homehardware.ca/en' },
 ]
 
 export function TrustedBy() {
