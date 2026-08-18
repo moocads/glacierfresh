@@ -130,10 +130,10 @@ export function WholeHouseCatalog() {
                 role="tab"
                 aria-selected={active}
                 onClick={() => switchCategory(item.id)}
-                className={`mr-5 flex shrink-0 items-center gap-2 border-b-2 py-4 text-[15px] font-semibold transition-colors ${
+                className={`mr-3 flex shrink-0 items-center gap-2 border-b-2 px-4 py-4 text-[17px] font-bold transition-colors ${
                   active
-                    ? 'border-primary text-primary'
-                    : 'border-transparent text-muted-foreground hover:text-secondary'
+                    ? 'border-primary bg-primary-50 text-primary'
+                    : 'border-transparent text-secondary-300 hover:bg-muted/50 hover:text-secondary'
                 }`}
               >
                 {item.label}
