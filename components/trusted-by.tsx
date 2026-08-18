@@ -9,7 +9,9 @@ const retailers = [
   { name: "Lowe's", logo: 'lowes', icon: '/images/partners/lowes.png', url: 'https://www. lowes.com' },
   { name: 'Ace Hardware', logo: 'ace', icon: '/images/partners/ace.png', url: 'https://www.acehardware.com/' },
   { name: 'Walmart', logo: 'walmart', icon: '/images/partners/walmart.png', url: 'https://www.walmart.com' },
-   { name: 'Home Hardware', logo: 'home-hardware', icon: '/images/partners/homehardware.png', url: 'https://www.homehardware.ca/en' },
+  { name: 'Home Hardware', logo: 'home-hardware', icon: '/images/partners/homehardware.png', url: 'https://www.homehardware.ca/en' },
+  { name: 'Menards', logo: 'menards', icon: '/images/partners/menards.png', url: 'https://www.menards.com/' },
+  { name: 'Do It Best', logo: 'do-it-best', icon: '/images/partners/doitbest.png', url: 'https://www.doitbest.com/' },
 ]
 
 export function TrustedBy() {
@@ -48,12 +50,12 @@ export function TrustedBy() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="flex flex-wrap items-center justify-center gap-2"
+          className="grid grid-cols-2 justify-items-center gap-2 sm:grid-cols-4 xl:grid-cols-8"
         >
           {retailers.map((retailer) => (
             <div
               key={retailer.name}
-              className="flex h-16 w-32 items-center justify-center transition-all lg:w-40"
+              className="flex h-24 w-full max-w-40 items-center justify-center transition-all"
             >
               <Image src={retailer.icon} alt={retailer.name} width={150} height={100} />
             </div>
