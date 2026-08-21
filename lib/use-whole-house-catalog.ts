@@ -4,9 +4,11 @@ import { useMemo } from 'react'
 import {
   type WholeHouseCategory,
   type WholeHouseProduct,
+  type CartridgeSpecification,
 } from '@/lib/whole-house-catalog-data'
 import {
   useCmsProducts,
+  type CmsCartridgeVariant,
   type CmsProduct,
   type CmsWholeHouseSpec,
 } from '@/lib/use-cms-products'
@@ -52,6 +54,27 @@ const capacityLabels: Record<
   m1_3: '1–3 months',
 }
 
+const micronRatingLabels: Record<
+  NonNullable<CmsCartridgeVariant['micron_rating']>,
+  string
+> = {
+  micron_20: '20 Micron',
+  micron_5: '5 Micron',
+  micron_1: '1 Micron',
+  not_rated: 'Not rated',
+}
+
+const replacementIntervalLabels: Record<
+  NonNullable<CmsCartridgeVariant['replacement_interval']>,
+  string
+> = {
+  m1_3: '1–3 months',
+  m2_4: '2–4 months',
+  m3_6: '3–6 months',
+  m6_12: '6–12 months',
+  m12_24: '12–24 months',
+}
+
 const tagFields = [
   ['Sediment', 'Sediment'],
   ['Rust', 'Rust'],
@@ -78,6 +101,64 @@ function labelFor<T extends string>(
   return value ? labels[value] : undefined
 }
 
+function numberValue(value: number | string | null | undefined) {
+  if (value == null || value === '') return undefined
+  const parsed = typeof value === 'number' ? value : Number(value)
+  return Number.isFinite(parsed) ? parsed : undefined
+}
+
+function formatNumber(value: number) {
+  return Number.isInteger(value) ? String(value) : String(value).replace(/0+$/, '')
+}
+
+function mapCmsCartridgeSpecifications(
+  variants: CmsCartridgeVariant[] | null | undefined,
+  baseModel: string,
+  size: string,
+): CartridgeSpecification[] {
+  if (!variants?.length) return getCartridgeSpecifications(baseModel)
+
+  return variants
+    .filter((variant) => variant.isActive !== false)
+    .sort(
+      (a, b) =>
+        (a.sortOrder ?? Number.MAX_SAFE_INTEGER) -
+        (b.sortOrder ?? Number.MAX_SAFE_INTEGER),
+    )
+    .flatMap((variant) => {
+      const micronRating = labelFor(variant.micron_rating, micronRatingLabels)
+      const flowRateGpm = numberValue(variant.flow_rate_gpm)
+      const flowRateLpm = numberValue(variant.flow_rate_lpm)
+      const pressurePsi = numberValue(variant.pressure_psi)
+      const pressureBar = numberValue(variant.pressure_bar)
+      const capacity = labelFor(
+        variant.replacement_interval,
+        replacementIntervalLabels,
+      )
+
+      if (
+        !micronRating ||
+        flowRateGpm == null ||
+        flowRateLpm == null ||
+        pressurePsi == null ||
+        pressureBar == null ||
+        !capacity
+      ) {
+        return []
+      }
+
+      return [
+        {
+          micronRating,
+          size,
+          model: variant.display_model?.trim() || baseModel,
+          flowRate: `${formatNumber(flowRateGpm)} gpm @ ${formatNumber(pressurePsi)} psi (${formatNumber(flowRateLpm)} Lpm @ ${formatNumber(pressureBar)} bar)`,
+          capacity,
+        },
+      ]
+    })
+}
+
 function mapCmsProduct(product: CmsProduct): {
   category: WholeHouseCategory
   product: WholeHouseProduct
@@ -89,12 +170,14 @@ function mapCmsProduct(product: CmsProduct): {
 
   const media = labelFor(spec.filtration_media, mediaLabels)
   const name = product.name?.trim() || media || model
+  const length = labelFor(spec.length, lengthLabels) ?? 'Not specified'
+  const diameter = labelFor(spec.diameter, diameterLabels) ?? 'Not specified'
   const shared = {
     model,
     name,
     slug: product.slug,
-    length: labelFor(spec.length, lengthLabels) ?? 'Not specified',
-    diameter: labelFor(spec.diameter, diameterLabels) ?? 'Not specified',
+    length,
+    diameter,
     details: {
       imageSrc: product.imageSrc,
       galleryImages: product.galleryImages,
@@ -135,7 +218,11 @@ function mapCmsProduct(product: CmsProduct): {
       media: media ?? 'Not specified',
       micron: spec.micron_rating?.trim() || 'Not specified',
       capacity: labelFor(spec.capacity, capacityLabels),
-      specifications: getCartridgeSpecifications(model),
+      specifications: mapCmsCartridgeSpecifications(
+        spec.cartridge_variants,
+        model,
+        `${length} × ${diameter}`,
+      ),
       tags: tagFields
         .filter(([field]) => spec[field] === true)
         .map(([, label]) => label),

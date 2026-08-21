@@ -43,6 +43,26 @@ export type CmsWholeHouseSpec = {
   Coarse_Sand?: boolean | null
   Sand?: boolean | null
   Fine_Sand?: boolean | null
+  cartridge_variants?: CmsCartridgeVariant[] | null
+}
+
+export type CmsCartridgeVariant = {
+  id?: number
+  micron_rating?: 'micron_20' | 'micron_5' | 'micron_1' | 'not_rated' | null
+  display_model?: string | null
+  flow_rate_gpm?: number | string | null
+  flow_rate_lpm?: number | string | null
+  pressure_psi?: number | string | null
+  pressure_bar?: number | string | null
+  replacement_interval?:
+    | 'm1_3'
+    | 'm2_4'
+    | 'm3_6'
+    | 'm6_12'
+    | 'm12_24'
+    | null
+  sortOrder?: number | null
+  isActive?: boolean | null
 }
 
 type CmsApiProduct = {

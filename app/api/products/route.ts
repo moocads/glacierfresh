@@ -20,9 +20,17 @@ function getProductsUrl(configuredUrl: string, page: number) {
       : `${trimmed}/api/products`,
   );
 
-  if (!url.searchParams.has("populate")) {
-    url.searchParams.set("populate", "*");
+  for (const key of [...url.searchParams.keys()]) {
+    if (key === "populate" || key.startsWith("populate[")) {
+      url.searchParams.delete(key);
+    }
   }
+  url.searchParams.set("populate[category]", "true");
+  url.searchParams.set("populate[feature_image]", "true");
+  url.searchParams.set("populate[gallery_images]", "true");
+  url.searchParams.set("populate[specs]", "true");
+  url.searchParams.set("populate[accessories]", "true");
+  url.searchParams.set("populate[whole_house_spec][populate]", "*");
   url.searchParams.set("pagination[page]", String(page));
   url.searchParams.set("pagination[pageSize]", "100");
   if (!url.searchParams.has("sort[0]")) {
