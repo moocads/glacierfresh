@@ -10,6 +10,7 @@ import {
   type CmsProduct,
   type CmsWholeHouseSpec,
 } from '@/lib/use-cms-products'
+import { getCartridgeSpecifications } from '@/lib/whole-house-cartridge-specifications'
 
 const systemTypeLabels: Record<
   NonNullable<CmsWholeHouseSpec['system_type']>,
@@ -134,6 +135,7 @@ function mapCmsProduct(product: CmsProduct): {
       media: media ?? 'Not specified',
       micron: spec.micron_rating?.trim() || 'Not specified',
       capacity: labelFor(spec.capacity, capacityLabels),
+      specifications: getCartridgeSpecifications(model),
       tags: tagFields
         .filter(([field]) => spec[field] === true)
         .map(([, label]) => label),

@@ -19,6 +19,8 @@ import { useWholeHouseCatalog } from '@/lib/use-whole-house-catalog'
 
 type WholeHouseProductDetailProps = {
   productSlug: string
+  selectedMicron?: string
+  selectedSize?: string
 }
 
 function getProductDescription(
@@ -97,6 +99,8 @@ function DetailMessage({
 
 export function WholeHouseProductDetail({
   productSlug,
+  selectedMicron,
+  selectedSize,
 }: WholeHouseProductDetailProps) {
   const { products, loading, error } = useWholeHouseCatalog()
   const result = (['housing', 'cartridge'] as const)
@@ -120,25 +124,49 @@ export function WholeHouseProductDetail({
 
   const { product, category } = result
   const categoryLabel = category === 'housing' ? 'Housing' : 'Cartridge'
-  const defaultSpecifications = getSpecifications(product, category)
+  const selectedSpecification =
+    category === 'cartridge' && selectedMicron && selectedSize
+      ? product.specifications?.find(
+          (spec) =>
+            spec.micronRating === selectedMicron && spec.size === selectedSize,
+        )
+      : undefined
+  const displayModel = selectedSpecification?.model ?? product.model
+  const defaultSpecifications: Array<[string, string | undefined]> =
+    getSpecifications(product, category).map(([label, value]) => [
+      label,
+      label === 'Model' ? displayModel : value,
+    ])
   const cmsSpecifications = product.details?.specs ?? []
-  const cmsSpecificationLabels = new Set(
-    cmsSpecifications.map((spec) => spec.label.trim().toLowerCase()),
-  )
-  const specifications = cmsSpecifications.length
+  const selectedSpecifications: Array<[string, string]> = selectedSpecification
     ? [
-        ...cmsSpecifications.map(
-          (spec) => [spec.label, spec.value] as [string, string],
-        ),
-        ...defaultSpecifications.filter(
-          ([label]) => !cmsSpecificationLabels.has(label.toLowerCase()),
-        ),
+        ['Model', selectedSpecification.model],
+        ['Micron rating', selectedSpecification.micronRating],
+        ['Size', selectedSpecification.size],
+        ['Flow rate', selectedSpecification.flowRate],
+        ['Capacity', selectedSpecification.capacity],
       ]
-    : defaultSpecifications
+    : []
+  const selectedLabels = new Set(
+    selectedSpecifications.map(([label]) => label.toLowerCase()),
+  )
+  const cmsRows = cmsSpecifications
+    .filter((spec) => !selectedLabels.has(spec.label.trim().toLowerCase()))
+    .map((spec) => [spec.label, spec.value] as [string, string])
+  const existingLabels = new Set(
+    [...selectedSpecifications, ...cmsRows].map(([label]) => label.toLowerCase()),
+  )
+  const specifications = [
+    ...selectedSpecifications,
+    ...cmsRows,
+    ...defaultSpecifications.filter(
+      ([label]) => !existingLabels.has(label.toLowerCase()),
+    ),
+  ]
   const compatibility =
     category === 'housing'
       ? `${product.length} × ${product.diameter} whole-house cartridges`
-      : `${product.length} × ${product.diameter} whole-house housings`
+      : `${selectedSpecification?.size ?? `${product.length} × ${product.diameter}`} whole-house housings`
 
   return (
     <main className="min-h-screen">
@@ -161,7 +189,7 @@ export function WholeHouseProductDetail({
             {product.name}
           </h1>
           <p className="mt-2 font-mono text-sm font-semibold text-primary">
-            Model: {product.model}
+            Model: {displayModel}
           </p>
         </div>
 
@@ -179,7 +207,7 @@ export function WholeHouseProductDetail({
                 {product.name}
               </h1>
               <p className="mt-3 font-mono text-sm font-semibold text-primary">
-                Model: {product.model}
+                Model: {displayModel}
               </p>
             </div>
 

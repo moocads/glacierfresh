@@ -10,31 +10,51 @@ type ProductDetailContentProps = {
   productSlug: string
 }
 
+function DetailMessage({
+  title,
+  message,
+}: {
+  title: string
+  message?: string
+}) {
+  return (
+    <main className="min-h-screen">
+      <section className="container mx-auto px-4 py-20 lg:px-8">
+        <p className="text-sm font-semibold uppercase tracking-wide text-primary">
+          Products
+        </p>
+        <h1 className="mt-3 font-heading text-4xl font-heavy text-secondary">
+          {title}
+        </h1>
+        {message && <p className="mt-3 text-secondary-300">{message}</p>}
+        <Button asChild className="mt-8 rounded-full bg-primary hover:bg-primary-600">
+          <Link href="/products">Back to products</Link>
+        </Button>
+      </section>
+    </main>
+  )
+}
+
 export function ProductDetailContent({
   categorySlug,
   productSlug,
 }: ProductDetailContentProps) {
-  const { categories } = useProductCatalog()
+  const { categories, loading, error } = useProductCatalog()
   const category = categories.find((cat) => cat.id === categorySlug)
   const product = category?.products.find((item) => item.slug === productSlug)
 
-  if (!category || !product) {
+  if (loading) {
     return (
-      <main className="min-h-screen">
-        <section className="container mx-auto px-4 py-20 lg:px-8">
-          <p className="text-sm font-semibold uppercase tracking-wide text-primary">
-            Products
-          </p>
-          <h1 className="mt-3 font-heading text-4xl font-heavy text-secondary">
-            Product not found
-          </h1>
-          <Button asChild className="mt-8 rounded-full bg-primary hover:bg-primary-600">
-            <Link href="/products">Back to products</Link>
-          </Button>
-        </section>
-      </main>
+      <DetailMessage
+        title="Loading product…"
+        message="Retrieving the latest product details from Strapi."
+      />
     )
   }
+  if (error) {
+    return <DetailMessage title="Unable to load product" message={error} />
+  }
+  if (!category || !product) return <DetailMessage title="Product not found" />
 
   const title = product.name ?? product.title
   const galleryImages = product.galleryImages.length

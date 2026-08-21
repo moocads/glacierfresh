@@ -1,5 +1,13 @@
 export type WholeHouseCategory = 'housing' | 'cartridge'
 
+export type CartridgeSpecification = {
+  micronRating: string
+  size: string
+  model: string
+  flowRate: string
+  capacity: string
+}
+
 export type WholeHouseProduct = {
   model: string
   name: string
@@ -14,6 +22,7 @@ export type WholeHouseProduct = {
   micron?: string
   capacity?: string
   tags?: string[]
+  specifications?: CartridgeSpecification[]
   details?: {
     imageSrc?: string
     galleryImages: string[]
@@ -60,14 +69,19 @@ export const WHOLE_HOUSE_FACETS: Record<
   ],
   cartridge: [
     {
+      key: 'micronRating',
+      label: 'Micron Rating',
+      options: ['20 Micron', '5 Micron', '1 Micron', 'Not rated'],
+    },
+    {
+      key: 'size',
+      label: 'Size',
+      options: ['10" × 2.5"', '20" × 2.5"', '10" × 4.5"', '20" × 4.5"'],
+    },
+    {
       key: 'tags',
       label: 'Filtration targets',
       options: ['Sediment', 'Rust', 'Coarse Sand', 'Sand', 'Fine Sand'],
-    },
-    {
-      key: 'capacity',
-      label: 'Capacity',
-      options: ['3–6 months', '2–4 months', '1–3 months'],
     },
     {
       key: 'media',
@@ -80,7 +94,5 @@ export const WHOLE_HOUSE_FACETS: Record<
         'Anti-scale',
       ],
     },
-    { key: 'diameter', label: 'Diameter', options: ['2.5"', '4.5"'] },
-    { key: 'length', label: 'Length', options: ['10"', '20"'] },
   ],
 }

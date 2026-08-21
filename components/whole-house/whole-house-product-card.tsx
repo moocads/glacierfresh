@@ -2,6 +2,7 @@ import { ArrowRight } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import type {
+  CartridgeSpecification,
   WholeHouseCategory,
   WholeHouseProduct,
 } from '@/lib/whole-house-catalog-data'
@@ -14,11 +15,13 @@ const cartridgePattern =
 type WholeHouseProductCardProps = {
   product: WholeHouseProduct
   category: WholeHouseCategory
+  specification?: CartridgeSpecification
 }
 
 export function WholeHouseProductCard({
   product,
   category,
+  specification,
 }: WholeHouseProductCardProps) {
   const visibleTags = product.tags?.slice(0, 3) ?? []
   const remainingTagCount = Math.max(
@@ -36,10 +39,14 @@ export function WholeHouseProductCard({
         ]
       : [
           product.media,
-          `${product.length} × ${product.diameter}`,
-          product.micron,
-          product.capacity,
+          specification?.size ?? `${product.length} × ${product.diameter}`,
+          specification?.micronRating ?? product.micron,
+          specification?.flowRate,
+          specification?.capacity ?? product.capacity,
         ]
+  const detailHref = specification
+    ? `/products/whole-house-solution/${product.slug}?micron=${encodeURIComponent(specification.micronRating)}&size=${encodeURIComponent(specification.size)}`
+    : `/products/whole-house-solution/${product.slug}`
 
   return (
     <article className="group flex min-h-full flex-col overflow-hidden rounded-xl border border-border bg-white transition duration-200 hover:-translate-y-0.5 hover:border-primary-100 hover:shadow-[0_1px_2px_rgba(8,36,73,.04),0_10px_28px_rgba(8,36,73,.08)]">
@@ -83,7 +90,7 @@ export function WholeHouseProductCard({
           {product.name}
         </h2>
         <p className="mt-1 font-mono text-xs text-muted-foreground">
-          {product.model}
+          {specification?.model ?? product.model}
         </p>
         <div className="mt-3 flex flex-wrap gap-1.5">
           {specs.filter(Boolean).map((spec) => (
@@ -116,7 +123,7 @@ export function WholeHouseProductCard({
           </div>
         ) : null}
         <Link
-          href={`/products/whole-house-solution/${product.slug}`}
+          href={detailHref}
           className="mt-auto inline-flex w-fit items-center gap-1.5 pt-4 text-sm font-semibold text-primary underline-offset-4 hover:underline"
         >
           View details

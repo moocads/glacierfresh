@@ -7,6 +7,14 @@ type ProductDetailPageProps = {
     categorySlug: string
     productSlug: string
   }>
+  searchParams: Promise<{
+    micron?: string | string[]
+    size?: string | string[]
+  }>
+}
+
+function firstQueryValue(value: string | string[] | undefined) {
+  return Array.isArray(value) ? value[0] : value
 }
 
 export async function generateMetadata({
@@ -31,11 +39,19 @@ export async function generateMetadata({
 
 export default async function ProductDetailPage({
   params,
+  searchParams,
 }: ProductDetailPageProps) {
   const { categorySlug, productSlug } = await params
 
   if (categorySlug === 'whole-house-solution') {
-    return <WholeHouseProductDetail productSlug={productSlug} />
+    const query = await searchParams
+    return (
+      <WholeHouseProductDetail
+        productSlug={productSlug}
+        selectedMicron={firstQueryValue(query.micron)}
+        selectedSize={firstQueryValue(query.size)}
+      />
+    )
   }
 
   return (

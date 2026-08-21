@@ -1,10 +1,11 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import { SlidersHorizontal, X } from 'lucide-react'
 import {
   WHOLE_HOUSE_CATEGORY_META,
   WHOLE_HOUSE_FACETS,
+  type CartridgeSpecification,
   type WholeHouseCategory,
   type WholeHouseProduct,
 } from '@/lib/whole-house-catalog-data'
@@ -23,54 +24,96 @@ export function WholeHouseCatalog() {
   const facets = WHOLE_HOUSE_FACETS[category]
   const products = productsByCategory[category]
 
-  const facetValues = (product: WholeHouseProduct, key: string) => {
+  const facetValues = (product: WholeHouseProduct, key: string): string[] => {
+    if (key === 'micronRating') {
+      return product.specifications?.map((spec) => spec.micronRating) ?? []
+    }
+    if (key === 'size') {
+      return product.specifications?.map((spec) => spec.size) ?? []
+    }
     const value = product[key as keyof WholeHouseProduct]
     if (typeof value === 'string') return [value]
-    return Array.isArray(value) ? value : []
+    return Array.isArray(value)
+      ? value.filter((item): item is string => typeof item === 'string')
+      : []
   }
 
-  const filteredProducts = useMemo(
-    () =>
-      products.filter((product) =>
-        facets.every((facet) => {
-          const selectedValues = selected[facet.key]
-          return (
-            !selectedValues?.length ||
-            selectedValues.some((value) =>
-              facetValues(product, facet.key).includes(value),
-            )
-          )
-        }),
-      ),
-    [facets, products, selected],
+  function matchesFilters(
+    product: WholeHouseProduct,
+    filters: SelectedFilters,
+  ) {
+    const micronRatings = filters.micronRating ?? []
+    const sizes = filters.size ?? []
+    const hasSpecificationFilters = micronRatings.length > 0 || sizes.length > 0
+    const matchesSpecification =
+      !hasSpecificationFilters ||
+      product.specifications?.some(
+        (spec) =>
+          (!micronRatings.length || micronRatings.includes(spec.micronRating)) &&
+          (!sizes.length || sizes.includes(spec.size)),
+      )
+
+    if (!matchesSpecification) return false
+
+    return facets.every((facet) => {
+      if (facet.key === 'micronRating' || facet.key === 'size') return true
+      const selectedValues = filters[facet.key]
+      return (
+        !selectedValues?.length ||
+        selectedValues.some((value) =>
+          facetValues(product, facet.key).includes(value),
+        )
+      )
+    })
+  }
+
+  const filteredProducts = products.filter((product) =>
+    matchesFilters(product, selected),
   )
 
   function countFor(facetKey: string, value: string) {
+    const candidateFilters = { ...selected, [facetKey]: [value] }
     return products.filter((product) =>
-      facets.every((facet) => {
-        if (facet.key === facetKey) {
-          return facetValues(product, facet.key).includes(value)
-        }
-        const selectedValues = selected[facet.key]
-        return (
-          !selectedValues?.length ||
-          selectedValues.some((selectedValue) =>
-            facetValues(product, facet.key).includes(selectedValue),
-          )
-        )
-      }),
+      matchesFilters(product, candidateFilters),
     ).length
   }
 
   function toggleFilter(facetKey: string, value: string) {
     setSelected((current) => {
       const currentValues = current[facetKey] ?? []
+      const isSpecificationFilter =
+        category === 'cartridge' &&
+        (facetKey === 'micronRating' || facetKey === 'size')
+
+      if (isSpecificationFilter) {
+        const isClearing = currentValues.includes(value)
+        const next = {
+          ...current,
+          [facetKey]: isClearing ? [] : [value],
+        }
+
+        if (facetKey === 'micronRating') next.size = []
+        return next
+      }
+
       const nextValues = currentValues.includes(value)
         ? currentValues.filter((item) => item !== value)
         : [...currentValues, value]
 
       return { ...current, [facetKey]: nextValues }
     })
+  }
+
+  function matchedSpecification(
+    product: WholeHouseProduct,
+  ): CartridgeSpecification | undefined {
+    const micronRating = selected.micronRating?.[0]
+    const size = selected.size?.[0]
+    if (!micronRating || !size) return undefined
+
+    return product.specifications?.find(
+      (spec) => spec.micronRating === micronRating && spec.size === size,
+    )
   }
 
   function switchCategory(nextCategory: WholeHouseCategory) {
@@ -164,6 +207,9 @@ export function WholeHouseCatalog() {
               selected={selected}
               countFor={countFor}
               onToggle={toggleFilter}
+              isFacetEnabled={(facetKey) =>
+                facetKey !== 'size' || Boolean(selected.micronRating?.length)
+              }
               className={`${
                 mobileFiltersOpen ? 'block' : 'hidden'
               } rounded-xl border border-border bg-white p-4 shadow-sm lg:block lg:border-0 lg:p-0 lg:shadow-none`}
@@ -227,6 +273,7 @@ export function WholeHouseCatalog() {
                     key={product.model}
                     product={product}
                     category={category}
+                    specification={matchedSpecification(product)}
                   />
                 ))}
               </div>
