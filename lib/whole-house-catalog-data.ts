@@ -1,11 +1,21 @@
 export type WholeHouseCategory = 'housing' | 'cartridge'
 
 export type CartridgeSpecification = {
+  key?: string
   micronRating: string
+  micronValue?: number
   size: string
+  sizeCode?: string
   model: string
   flowRate: string
   capacity: string
+  testPressure?: string
+  filtrationEfficiencyLevel?: number
+  initialPressureDropLevel?: number
+  tags?: string[]
+  imageSrc?: string
+  galleryImages?: string[]
+  imageAlt?: string
 }
 
 export type WholeHouseProduct = {
@@ -28,6 +38,9 @@ export type WholeHouseProduct = {
     galleryImages: string[]
     imageAlt: string
     description?: string
+    benefits?: string[]
+    pressureRange?: string
+    temperatureRange?: string
     specs: { label: string; value: string }[]
     accessories: string[]
   }
@@ -69,14 +82,14 @@ export const WHOLE_HOUSE_FACETS: Record<
   ],
   cartridge: [
     {
-      key: 'micronRating',
-      label: 'Micron Rating',
-      options: ['20 Micron', '5 Micron', '1 Micron', 'Not rated'],
-    },
-    {
       key: 'size',
       label: 'Size',
       options: ['10" × 2.5"', '20" × 2.5"', '10" × 4.5"', '20" × 4.5"'],
+    },
+    {
+      key: 'micronRating',
+      label: 'Micron Rating',
+      options: ['20 Micron', '5 Micron', '1 Micron', 'Not rated'],
     },
     {
       key: 'tags',

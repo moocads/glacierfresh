@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import type {
+  CartridgeSpecification,
   WholeHouseCategory,
   WholeHouseProduct,
 } from '@/lib/whole-house-catalog-data'
@@ -12,12 +13,22 @@ const cartridgePattern =
 type WholeHouseProductVisualProps = {
   product: WholeHouseProduct
   category: WholeHouseCategory
+  specification?: CartridgeSpecification
 }
 
 export function WholeHouseProductVisual({
   product,
   category,
+  specification,
 }: WholeHouseProductVisualProps) {
+  const imageSrc = specification?.imageSrc ?? product.details?.imageSrc
+  const imageAlt = specification?.imageAlt ?? product.details?.imageAlt ?? product.name
+  const displayModel = specification?.model ?? product.model
+  const [length, diameter] = specification?.size.split(' × ') ?? [
+    product.length,
+    product.diameter,
+  ]
+
   return (
     <div className="relative aspect-square overflow-hidden rounded-2xl border border-border bg-gradient-to-br from-primary-50/80 via-white to-primary-50/50">
       <div className="absolute inset-x-0 top-0 z-10 flex items-center justify-between p-5">
@@ -27,15 +38,15 @@ export function WholeHouseProductVisual({
             : product.tags?.[0] ?? 'Cartridge'}
         </span>
         <span className="font-mono text-xs font-medium text-muted-foreground">
-          {product.model}
+          {displayModel}
         </span>
       </div>
 
       <div className="absolute inset-0 flex items-center justify-center">
-        {product.details?.imageSrc ? (
+        {imageSrc ? (
           <Image
-            src={product.details.imageSrc}
-            alt={product.details.imageAlt}
+            src={imageSrc}
+            alt={imageAlt}
             fill
             priority
             className="object-contain p-10"
@@ -61,10 +72,10 @@ export function WholeHouseProductVisual({
 
       <div className="absolute inset-x-5 bottom-5 z-10 flex justify-center gap-2">
         <span className="rounded-lg border border-primary-100 bg-white/90 px-3 py-1.5 text-xs text-secondary-300 shadow-sm">
-          {product.length} length
+          {length} length
         </span>
         <span className="rounded-lg border border-primary-100 bg-white/90 px-3 py-1.5 text-xs text-secondary-300 shadow-sm">
-          {product.diameter} diameter
+          {diameter} diameter
         </span>
       </div>
     </div>

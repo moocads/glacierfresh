@@ -3,6 +3,7 @@
 import { useMemo } from 'react'
 import {
   type WholeHouseCategory,
+  type WholeHouseFacet,
   type WholeHouseProduct,
   type CartridgeSpecification,
 } from '@/lib/whole-house-catalog-data'
@@ -12,6 +13,11 @@ import {
   type CmsProduct,
   type CmsWholeHouseSpec,
 } from '@/lib/use-cms-products'
+import {
+  useCmsCartridgeProducts,
+  type CmsCartridgeProduct,
+  type CmsMedia,
+} from '@/lib/use-cms-cartridge-products'
 import { getCartridgeSpecifications } from '@/lib/whole-house-cartridge-specifications'
 
 const systemTypeLabels: Record<
@@ -109,6 +115,48 @@ function numberValue(value: number | string | null | undefined) {
 
 function formatNumber(value: number) {
   return Number.isInteger(value) ? String(value) : String(value).replace(/0+$/, '')
+}
+
+function mediaUrl(media: CmsMedia | null | undefined) {
+  return (
+    media?.formats?.large?.url ??
+    media?.formats?.medium?.url ??
+    media?.formats?.small?.url ??
+    media?.url
+  )
+}
+
+function textFromBlockNode(node: unknown): string {
+  if (!node || typeof node !== 'object') return ''
+  const value = node as { text?: unknown; children?: unknown }
+  if (typeof value.text === 'string') return value.text
+  return Array.isArray(value.children)
+    ? value.children.map(textFromBlockNode).join('')
+    : ''
+}
+
+function benefitsFromBlocks(blocks: unknown[] | null | undefined) {
+  return (blocks ?? [])
+    .map((block) => textFromBlockNode(block).trim())
+    .filter((text): text is string => Boolean(text))
+}
+
+function micronLabel(name: string | null | undefined) {
+  const trimmed = name?.trim()
+  if (!trimmed) return undefined
+  if (/^not\s+rated$/i.test(trimmed)) return 'Not rated'
+  const match = trimmed.match(/^(\d+(?:\.\d+)?)\s*micron$/i)
+  return match ? `${match[1]} Micron` : trimmed
+}
+
+function cartridgeSizeLabel(length: number, diameter: number) {
+  return `${formatNumber(length)}" × ${formatNumber(diameter)}"`
+}
+
+function capacityLabel(minimum: number, maximum: number) {
+  return minimum === maximum
+    ? `${minimum} months`
+    : `${minimum}–${maximum} months`
 }
 
 function mapCmsCartridgeSpecifications(
@@ -230,11 +278,203 @@ function mapCmsProduct(product: CmsProduct): {
   }
 }
 
+function mapCmsCartridgeProduct(product: CmsCartridgeProduct): {
+  product: WholeHouseProduct
+  sortOrder: number
+} | null {
+  if (
+    product.isActive === false ||
+    product.category?.slug !== 'whole-house-solution'
+  ) {
+    return null
+  }
+
+  const name = product.name?.trim()
+  const slug = product.slug?.trim()
+  if (!name || !slug) return null
+
+  const specifications: CartridgeSpecification[] = (product.sizeVariants ?? [])
+    .filter(
+      (variant) =>
+        variant.isActive !== false && variant.size?.isActive !== false,
+    )
+    .sort(
+      (a, b) =>
+        (a.sortOrder ?? Number.MAX_SAFE_INTEGER) -
+        (b.sortOrder ?? Number.MAX_SAFE_INTEGER),
+    )
+    .flatMap((variant) => {
+      const length = numberValue(variant.size?.lengthInches)
+      const diameter = numberValue(variant.size?.diameterInches)
+      if (length == null || diameter == null) return []
+
+      const size = cartridgeSizeLabel(length, diameter)
+      const sizeCode = variant.size?.sizeCode?.trim() || variant.size?.name?.trim()
+      const imageSrc = mediaUrl(variant.featureImage)
+      const imageAlt =
+        variant.featureImage?.alternativeText?.trim() || `${name} ${size}`
+      const galleryImages = (variant.galleryImages ?? [])
+        .map(mediaUrl)
+        .filter((url): url is string => Boolean(url))
+
+      return (variant.micronConfigurations ?? [])
+        .filter(
+          (configuration) =>
+            configuration.isActive !== false &&
+            configuration.micronRating?.isActive !== false,
+        )
+        .sort(
+          (a, b) =>
+            (a.sortOrder ?? Number.MAX_SAFE_INTEGER) -
+            (b.sortOrder ?? Number.MAX_SAFE_INTEGER),
+        )
+        .flatMap((configuration) => {
+          const micronRating = micronLabel(configuration.micronRating?.name)
+          const model = configuration.displayModel?.trim()
+          const flowRateGpm = numberValue(configuration.flowRateGpm)
+          const flowRateLpm = numberValue(configuration.flowRateLpm)
+          const pressurePsi = numberValue(configuration.testPressurePsi)
+          const pressureBar = numberValue(configuration.testPressureBar)
+          const capacityMin = configuration.capacityMinMonths
+          const capacityMax = configuration.capacityMaxMonths
+          if (
+            !micronRating ||
+            !model ||
+            flowRateGpm == null ||
+            flowRateLpm == null ||
+            pressurePsi == null ||
+            pressureBar == null ||
+            capacityMin == null ||
+            capacityMax == null
+          ) {
+            return []
+          }
+
+          const tags = (configuration.filtrationCapabilities ?? [])
+            .filter((capability) => capability.isActive !== false)
+            .sort(
+              (a, b) =>
+                (a.sortOrder ?? Number.MAX_SAFE_INTEGER) -
+                (b.sortOrder ?? Number.MAX_SAFE_INTEGER),
+            )
+            .map((capability) => capability.name?.trim())
+            .filter((tag): tag is string => Boolean(tag))
+
+          return [
+            {
+              key: `${slug}:${sizeCode ?? size}:${configuration.micronRating?.code ?? micronRating}:${model}`,
+              micronRating,
+              micronValue: numberValue(configuration.micronRating?.value),
+              size,
+              sizeCode,
+              model,
+              flowRate: `${formatNumber(flowRateGpm)} gpm @ ${formatNumber(pressurePsi)} psi (${formatNumber(flowRateLpm)} Lpm @ ${formatNumber(pressureBar)} bar)`,
+              capacity: capacityLabel(capacityMin, capacityMax),
+              testPressure: `${formatNumber(pressurePsi)} psi (${formatNumber(pressureBar)} bar)`,
+              filtrationEfficiencyLevel:
+                configuration.filtrationEfficiencyLevel ?? undefined,
+              initialPressureDropLevel:
+                configuration.initialPressureDropLevel ?? undefined,
+              tags,
+              imageSrc,
+              galleryImages,
+              imageAlt,
+            },
+          ]
+        })
+    })
+
+  const first = specifications[0]
+  if (!first) return null
+
+  const allTags = [...new Set(specifications.flatMap((spec) => spec.tags ?? []))]
+  const common = product.commonSpecifications
+
+  return {
+    sortOrder: product.sortOrder ?? Number.MAX_SAFE_INTEGER,
+    product: {
+      model: first.model,
+      name,
+      slug,
+      length: first.size.split(' × ')[0],
+      diameter: first.size.split(' × ')[1],
+      media: common?.filtrationMedia?.trim() || 'Not specified',
+      micron: first.micronRating,
+      capacity: first.capacity,
+      tags: allTags,
+      specifications,
+      details: {
+        imageSrc: first.imageSrc,
+        galleryImages: first.galleryImages ?? [],
+        imageAlt: first.imageAlt ?? name,
+        description: product.description?.trim() || undefined,
+        benefits: benefitsFromBlocks(common?.benefits),
+        pressureRange: common?.pressureRange?.trim() || undefined,
+        temperatureRange: common?.temperatureRange?.trim() || undefined,
+        specs: [],
+        accessories: [],
+      },
+    },
+  }
+}
+
+function uniqueValues(values: Array<string | undefined>) {
+  return [...new Set(values.filter((value): value is string => Boolean(value)))]
+}
+
+function sortMicronLabels(values: string[]) {
+  return [...values].sort((a, b) => {
+    if (a === 'Not rated') return 1
+    if (b === 'Not rated') return -1
+    return (Number.parseFloat(b) || 0) - (Number.parseFloat(a) || 0)
+  })
+}
+
+export function buildCartridgeFacets(
+  products: WholeHouseProduct[],
+): WholeHouseFacet[] {
+  const specifications = products.flatMap((product) => product.specifications ?? [])
+
+  return [
+    {
+      key: 'size',
+      label: 'Size',
+      options: uniqueValues(specifications.map((spec) => spec.size)),
+    },
+    {
+      key: 'micronRating',
+      label: 'Micron Rating',
+      options: sortMicronLabels(
+        uniqueValues(specifications.map((spec) => spec.micronRating)),
+      ),
+    },
+    {
+      key: 'tags',
+      label: 'Filtration targets',
+      options: uniqueValues(specifications.flatMap((spec) => spec.tags ?? [])),
+    },
+    {
+      key: 'media',
+      label: 'Media',
+      options: uniqueValues(products.map((product) => product.media)),
+    },
+  ]
+}
+
 export function useWholeHouseCatalog() {
-  const { products: cmsProducts, loading, error } = useCmsProducts()
+  const {
+    products: cmsProducts,
+    loading: productsLoading,
+    error: productsError,
+  } = useCmsProducts()
+  const {
+    products: cmsCartridgeProducts,
+    loading: cartridgesLoading,
+    error: cartridgesError,
+  } = useCmsCartridgeProducts()
 
   const products = useMemo(() => {
-    const mapped = cmsProducts
+    const legacyProducts = cmsProducts
       .filter((product) => product.isActive !== false)
       .map(mapCmsProduct)
       .filter((item): item is NonNullable<typeof item> => item !== null)
@@ -243,15 +483,26 @@ export function useWholeHouseCatalog() {
           a.sortOrder - b.sortOrder || a.product.model.localeCompare(b.product.model),
       )
 
+    const cartridges = cmsCartridgeProducts
+      .map(mapCmsCartridgeProduct)
+      .filter((item): item is NonNullable<typeof item> => item !== null)
+      .sort(
+        (a, b) =>
+          a.sortOrder - b.sortOrder ||
+          a.product.name.localeCompare(b.product.name),
+      )
+
     return {
-      housing: mapped
+      housing: legacyProducts
         .filter((item) => item.category === 'housing')
         .map((item) => item.product),
-      cartridge: mapped
-        .filter((item) => item.category === 'cartridge')
-        .map((item) => item.product),
+      cartridge: cartridges.map((item) => item.product),
     } satisfies Record<WholeHouseCategory, WholeHouseProduct[]>
-  }, [cmsProducts])
+  }, [cmsCartridgeProducts, cmsProducts])
 
-  return { products, loading, error }
+  return {
+    products,
+    loading: productsLoading || cartridgesLoading,
+    error: productsError ?? cartridgesError,
+  }
 }

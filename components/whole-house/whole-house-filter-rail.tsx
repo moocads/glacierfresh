@@ -31,9 +31,9 @@ export function WholeHouseFilterRail({
             <legend className="mb-2.5 text-sm font-semibold text-secondary">
               {facet.label}
             </legend>
-            {!facetEnabled && facet.key === 'size' ? (
+            {!facetEnabled && facet.key === 'micronRating' ? (
               <p className="mb-2 text-xs leading-5 text-muted-foreground">
-                Select a Micron Rating first.
+                Select a Size first.
               </p>
             ) : null}
             {facet.options.map((option) => {

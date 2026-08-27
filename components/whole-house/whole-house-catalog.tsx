@@ -9,7 +9,10 @@ import {
   type WholeHouseCategory,
   type WholeHouseProduct,
 } from '@/lib/whole-house-catalog-data'
-import { useWholeHouseCatalog } from '@/lib/use-whole-house-catalog'
+import {
+  buildCartridgeFacets,
+  useWholeHouseCatalog,
+} from '@/lib/use-whole-house-catalog'
 import { WholeHouseFilterRail } from '@/components/whole-house/whole-house-filter-rail'
 import { WholeHouseProductCard } from '@/components/whole-house/whole-house-product-card'
 
@@ -21,8 +24,11 @@ export function WholeHouseCatalog() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
   const { products: productsByCategory, loading, error } = useWholeHouseCatalog()
 
-  const facets = WHOLE_HOUSE_FACETS[category]
   const products = productsByCategory[category]
+  const facets =
+    category === 'cartridge'
+      ? buildCartridgeFacets(productsByCategory.cartridge)
+      : WHOLE_HOUSE_FACETS.housing
 
   const facetValues = (product: WholeHouseProduct, key: string): string[] => {
     if (key === 'micronRating') {
@@ -30,6 +36,9 @@ export function WholeHouseCatalog() {
     }
     if (key === 'size') {
       return product.specifications?.map((spec) => spec.size) ?? []
+    }
+    if (key === 'tags') {
+      return product.specifications?.flatMap((spec) => spec.tags ?? []) ?? []
     }
     const value = product[key as keyof WholeHouseProduct]
     if (typeof value === 'string') return [value]
@@ -44,19 +53,28 @@ export function WholeHouseCatalog() {
   ) {
     const micronRatings = filters.micronRating ?? []
     const sizes = filters.size ?? []
-    const hasSpecificationFilters = micronRatings.length > 0 || sizes.length > 0
+    const tags = filters.tags ?? []
+    const hasSpecificationFilters =
+      micronRatings.length > 0 || sizes.length > 0 || tags.length > 0
     const matchesSpecification =
       !hasSpecificationFilters ||
       product.specifications?.some(
         (spec) =>
           (!micronRatings.length || micronRatings.includes(spec.micronRating)) &&
-          (!sizes.length || sizes.includes(spec.size)),
+          (!sizes.length || sizes.includes(spec.size)) &&
+          (!tags.length || tags.some((tag) => spec.tags?.includes(tag))),
       )
 
     if (!matchesSpecification) return false
 
     return facets.every((facet) => {
-      if (facet.key === 'micronRating' || facet.key === 'size') return true
+      if (
+        facet.key === 'micronRating' ||
+        facet.key === 'size' ||
+        facet.key === 'tags'
+      ) {
+        return true
+      }
       const selectedValues = filters[facet.key]
       return (
         !selectedValues?.length ||
@@ -92,7 +110,7 @@ export function WholeHouseCatalog() {
           [facetKey]: isClearing ? [] : [value],
         }
 
-        if (facetKey === 'micronRating') next.size = []
+        if (facetKey === 'size') next.micronRating = []
         return next
       }
 
@@ -107,12 +125,15 @@ export function WholeHouseCatalog() {
   function matchedSpecification(
     product: WholeHouseProduct,
   ): CartridgeSpecification | undefined {
-    const micronRating = selected.micronRating?.[0]
     const size = selected.size?.[0]
-    if (!micronRating || !size) return undefined
+    const micronRating = selected.micronRating?.[0]
 
-    return product.specifications?.find(
-      (spec) => spec.micronRating === micronRating && spec.size === size,
+    return (
+      product.specifications?.find(
+        (spec) =>
+          (!size || spec.size === size) &&
+          (!micronRating || spec.micronRating === micronRating),
+      ) ?? product.specifications?.[0]
     )
   }
 
@@ -208,7 +229,7 @@ export function WholeHouseCatalog() {
               countFor={countFor}
               onToggle={toggleFilter}
               isFacetEnabled={(facetKey) =>
-                facetKey !== 'size' || Boolean(selected.micronRating?.length)
+                facetKey !== 'micronRating' || Boolean(selected.size?.length)
               }
               className={`${
                 mobileFiltersOpen ? 'block' : 'hidden'
@@ -270,7 +291,7 @@ export function WholeHouseCatalog() {
               <div className="grid grid-cols-[repeat(auto-fill,minmax(215px,1fr))] gap-4">
                 {filteredProducts.map((product) => (
                   <WholeHouseProductCard
-                    key={product.model}
+                    key={product.slug}
                     product={product}
                     category={category}
                     specification={matchedSpecification(product)}

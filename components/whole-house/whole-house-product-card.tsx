@@ -23,9 +23,10 @@ export function WholeHouseProductCard({
   category,
   specification,
 }: WholeHouseProductCardProps) {
-  const visibleTags = product.tags?.slice(0, 3) ?? []
+  const activeTags = specification?.tags ?? product.tags ?? []
+  const visibleTags = activeTags.slice(0, 3)
   const remainingTagCount = Math.max(
-    (product.tags?.length ?? 0) - visibleTags.length,
+    activeTags.length - visibleTags.length,
     0,
   )
   const specs =
@@ -51,10 +52,10 @@ export function WholeHouseProductCard({
   return (
     <article className="group flex min-h-full flex-col overflow-hidden rounded-xl border border-border bg-white transition duration-200 hover:-translate-y-0.5 hover:border-primary-100 hover:shadow-[0_1px_2px_rgba(8,36,73,.04),0_10px_28px_rgba(8,36,73,.08)]">
       <div className="relative flex aspect-[5/4] items-center justify-center bg-primary-50/35">
-        {product.details?.imageSrc ? (
+        {specification?.imageSrc ?? product.details?.imageSrc ? (
           <Image
-            src={product.details.imageSrc}
-            alt={product.details.imageAlt}
+            src={specification?.imageSrc ?? product.details!.imageSrc!}
+            alt={specification?.imageAlt ?? product.details!.imageAlt}
             fill
             className="object-contain transition-transform duration-300 group-hover:scale-[1.03]"
             sizes="(min-width: 1280px) 220px, (min-width: 768px) 30vw, 100vw"
@@ -79,7 +80,7 @@ export function WholeHouseProductCard({
               />
             </div>
             <span className="absolute left-3 top-3 rounded-full border border-primary-100 bg-white px-2.5 py-1 text-[11px] font-semibold text-primary-700">
-              {product.tags?.[0] ?? 'Cartridge'}
+              {activeTags[0] ?? 'Cartridge'}
             </span>
           </>
         )}
