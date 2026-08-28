@@ -1,23 +1,74 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { ProductListCard } from '@/components/product-list-card'
 import { cn } from '@/lib/utils'
-import { useProductCatalog } from '@/lib/use-product-catalog'
+import {
+  type ProductWithDetails,
+  useProductCatalog,
+} from '@/lib/use-product-catalog'
+import { useWholeHouseCatalog } from '@/lib/use-whole-house-catalog'
+import type { WholeHouseProduct } from '@/lib/whole-house-catalog-data'
+
+function mapWholeHouseProduct(product: WholeHouseProduct): ProductWithDetails {
+  const imageSrc = product.details?.imageSrc ?? '/images/products.png'
+
+  return {
+    name: product.name,
+    slug: product.slug,
+    title: product.name,
+    model: product.model,
+    description: product.details?.description,
+    cta: 'Learn More',
+    imageSrc,
+    galleryImages: product.details?.galleryImages.length
+      ? product.details.galleryImages
+      : [imageSrc],
+    imageAlt: product.details?.imageAlt ?? product.name,
+    objectPosition: 'center',
+    specs: product.details?.specs,
+    accessories: product.details?.accessories,
+  }
+}
 
 export function ProductsCatalog() {
-  const { categories } = useProductCatalog()
+  const {
+    categories: catalogCategories,
+    loading: catalogLoading,
+  } = useProductCatalog()
+  const {
+    products: wholeHouseProducts,
+    loading: wholeHouseLoading,
+  } = useWholeHouseCatalog()
   const [activeCategoryId, setActiveCategoryId] = useState('')
+  const loading = catalogLoading || wholeHouseLoading
+  const categories = useMemo(
+    () =>
+      catalogCategories.map((category) =>
+        category.id === 'whole-house-solution'
+          ? {
+              ...category,
+              products: [
+                ...wholeHouseProducts.housing,
+                ...wholeHouseProducts.cartridge,
+              ].map(mapWholeHouseProduct),
+            }
+          : category,
+      ),
+    [catalogCategories, wholeHouseProducts],
+  )
 
   useEffect(() => {
-    if (!categories.length) return
+    if (loading || !categories.length) return
     if (!activeCategoryId || !categories.some((cat) => cat.id === activeCategoryId)) {
       setActiveCategoryId(categories[0].id)
     }
-  }, [activeCategoryId, categories])
+  }, [activeCategoryId, categories, loading])
 
-  const activeCategory =
-    categories.find((category) => category.id === activeCategoryId) ?? categories[0]
+  const activeCategory = loading
+    ? undefined
+    : categories.find((category) => category.id === activeCategoryId) ??
+      categories[0]
 
   return (
     <main className="min-h-screen">
@@ -61,7 +112,9 @@ export function ProductsCatalog() {
       </section>
 
       <section className="container mx-auto px-4 py-12 lg:px-8 lg:py-16">
-        {activeCategory ? (
+        {loading ? (
+          <p className="text-secondary">Loading products…</p>
+        ) : activeCategory ? (
           <>
             <div className="mb-8 border-b border-border pb-4">
               <h2 className="font-heading text-3xl font-heavy text-primary md:text-4xl">

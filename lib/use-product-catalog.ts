@@ -20,8 +20,13 @@ export type CategoryWithProducts = Omit<CatalogCategory, 'products'> & {
 }
 
 export function useProductCatalog() {
-  const { categories: cmsCategories } = useCmsCategories()
-  const { products: cmsProducts, loading, error } = useCmsProducts()
+  const { categories: cmsCategories, loading: categoriesLoading } =
+    useCmsCategories()
+  const {
+    products: cmsProducts,
+    loading: productsLoading,
+    error,
+  } = useCmsProducts()
 
   const categories = useMemo<CategoryWithProducts[]>(() => {
     if (cmsProducts.length === 0) {
@@ -62,5 +67,9 @@ export function useProductCatalog() {
       .filter((cat) => cat.products.length > 0)
   }, [cmsCategories, cmsProducts])
 
-  return { categories, loading, error }
+  return {
+    categories,
+    loading: categoriesLoading || productsLoading,
+    error,
+  }
 }

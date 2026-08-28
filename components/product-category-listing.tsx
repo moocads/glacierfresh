@@ -10,8 +10,23 @@ type ProductCategoryListingProps = {
 }
 
 export function ProductCategoryListing({ categorySlug }: ProductCategoryListingProps) {
-  const { categories } = useProductCatalog()
+  const { categories, loading } = useProductCatalog()
   const category = categories.find((cat) => cat.id === categorySlug)
+
+  if (loading) {
+    return (
+      <main className="min-h-screen">
+        <section className="container mx-auto px-4 py-20 lg:px-8">
+          <p className="text-sm font-semibold uppercase tracking-wide text-primary">
+            Products
+          </p>
+          <h1 className="mt-3 font-heading text-4xl font-heavy text-secondary">
+            Loading products…
+          </h1>
+        </section>
+      </main>
+    )
+  }
 
   if (!category) {
     return (

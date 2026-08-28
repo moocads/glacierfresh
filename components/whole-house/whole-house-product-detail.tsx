@@ -12,6 +12,7 @@ import {
   Wrench,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { ProductDetailContent } from '@/components/product-detail-content'
 import { WholeHouseProductVisual } from '@/components/whole-house/whole-house-product-visual'
 import {
   type WholeHouseCategory,
@@ -134,7 +135,14 @@ export function WholeHouseProductDetail({
   if (error) {
     return <DetailMessage title="Unable to load product" message={error} />
   }
-  if (!result) return <DetailMessage title="Product not found" />
+  if (!result) {
+    return (
+      <ProductDetailContent
+        categorySlug="whole-house-solution"
+        productSlug={productSlug}
+      />
+    )
+  }
 
   const { product, category } = result
   const categoryLabel = category === 'housing' ? 'Housing' : 'Cartridge'

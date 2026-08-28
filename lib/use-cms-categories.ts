@@ -44,6 +44,7 @@ export function useCmsCategories() {
   }))
 
   const [categories, setCategories] = useState<CmsCategory[]>(fallbackCategories)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     let cancelled = false
@@ -79,6 +80,8 @@ export function useCmsCategories() {
         setCategories(mapped)
       } catch {
         // ignore – non-critical enhancement
+      } finally {
+        if (!cancelled) setLoading(false)
       }
     }
 
@@ -89,6 +92,5 @@ export function useCmsCategories() {
     }
   }, [])
 
-  return { categories }
+  return { categories, loading }
 }
-
