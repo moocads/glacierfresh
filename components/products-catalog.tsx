@@ -69,9 +69,12 @@ export function ProductsCatalog() {
               </h2>
             </div>
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {activeCategory.products.map((product) => (
+              {activeCategory.products.map((product, index) => (
                 <ProductListCard
-                  key={product.slug}
+                  key={
+                    product.cmsId ??
+                    `${activeCategory.id}-${product.slug}-${index}`
+                  }
                   categorySlug={activeCategory.id}
                   product={product}
                 />

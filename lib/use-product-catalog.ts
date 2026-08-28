@@ -10,6 +10,7 @@ import { useCmsCategories } from '@/lib/use-cms-categories'
 import { useCmsProducts } from '@/lib/use-cms-products'
 
 export type ProductWithDetails = CatalogProduct & {
+  cmsId?: number
   specs?: { label: string; value: string }[]
   accessories?: string[]
 }
@@ -33,6 +34,7 @@ export function useProductCatalog() {
           .filter((p) => p.categorySlug === cmsCat.id)
           .map(
             (p): ProductWithDetails => ({
+              cmsId: p.id,
               name: p.name,
               slug: p.slug,
               title: p.title,
