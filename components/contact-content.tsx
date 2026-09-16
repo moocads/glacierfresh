@@ -25,8 +25,8 @@ const CONTACT_INFO = [
   {
     icon: Phone,
     label: 'Phone',
-    href: 'tel:19059406266',
-    value: '1-905-940-6266',
+    href: 'tel:19055136266',
+    value: '1-905-513-6266',
   },
   {
     icon: Phone,
