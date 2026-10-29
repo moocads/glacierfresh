@@ -120,14 +120,14 @@ export function WhyChoose() {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <h1 className="text-3xl font-heavy md:text-5xl">
+            <h1 className="type-page-subheading">
               <span className="text-primary ">Why Choose</span>
               <br />
               <span className="text-secondary">Glacier </span>
               <span className="text-primary">Fresh</span>
             </h1>
 
-            <p className="mt-6 text-muted-foreground">
+            <p className="type-body mt-6 text-muted-foreground">
               Built to Support Your Business
             </p>
 

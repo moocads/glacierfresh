@@ -96,7 +96,7 @@ function DetailMessage({
         <p className="text-sm font-semibold uppercase tracking-wide text-primary">
           Whole House Solution
         </p>
-        <h1 className="mt-3 font-heading text-3xl font-extrabold text-secondary">
+        <h1 className="type-page-heading mt-3 text-secondary">
           {title}
         </h1>
         {message && <p className="mt-3 text-secondary-300">{message}</p>}
@@ -250,7 +250,7 @@ export function WholeHouseProductDetail({
           <p className="text-xs font-semibold uppercase tracking-[0.08em] text-primary">
             {categoryLabel}
           </p>
-          <h1 className="mt-2 font-heading text-3xl font-extrabold leading-tight text-secondary">
+          <h1 className="type-page-heading mt-2 text-secondary">
             {product.name}
           </h1>
           <p className="mt-2 font-mono text-sm font-semibold text-primary">
@@ -272,7 +272,7 @@ export function WholeHouseProductDetail({
               <p className="text-xs font-semibold uppercase tracking-[0.08em] text-primary">
                 Whole House · {categoryLabel}
               </p>
-              <h1 className="mt-3 font-heading text-3xl font-extrabold leading-tight text-secondary">
+              <h1 className="type-page-heading mt-3 text-secondary">
                 {product.name}
               </h1>
               <p className="mt-3 font-mono text-sm font-semibold text-primary">
@@ -351,10 +351,10 @@ export function WholeHouseProductDetail({
             ) : null}
 
             <section>
-              <h2 className="font-heading text-2xl font-bold text-secondary">
+              <h2 className="type-page-subheading text-secondary">
                 Product Information
               </h2>
-              <p className="mt-4 text-base leading-7 text-secondary-300">
+              <p className="type-body mt-4 text-secondary-300">
                 {product.details?.description ||
                   getProductDescription(product, category, selectedSpecification)}
               </p>
@@ -362,10 +362,10 @@ export function WholeHouseProductDetail({
 
             {product.details?.benefits?.length ? (
               <section>
-                <h2 className="font-heading text-2xl font-bold text-secondary">
+                <h2 className="type-page-subheading text-secondary">
                   Benefits
                 </h2>
-                <ul className="mt-4 space-y-2 text-sm leading-6 text-secondary-300 md:text-base">
+                <ul className="type-body mt-4 space-y-2 text-secondary-300">
                   {product.details.benefits.map((benefit) => (
                     <li key={benefit} className="flex items-start gap-2.5">
                       <CheckCircle2 className="mt-1 size-4 shrink-0 text-primary" />
@@ -378,7 +378,7 @@ export function WholeHouseProductDetail({
 
             {category === 'cartridge' && activeTags.length ? (
               <section>
-                <h2 className="font-heading text-2xl font-bold text-secondary">
+                <h2 className="type-page-subheading text-secondary">
                   Filtration Targets
                 </h2>
                 <div className="mt-4 flex flex-wrap gap-2">
@@ -426,7 +426,7 @@ export function WholeHouseProductDetail({
             </section>
 
             <section>
-              <h2 className="font-heading text-2xl font-bold text-secondary">
+              <h2 className="type-page-subheading text-secondary">
                 Specifications
               </h2>
               <div className="mt-4 overflow-hidden rounded-xl border border-border">
@@ -452,10 +452,10 @@ export function WholeHouseProductDetail({
 
             {product.details?.accessories.length ? (
               <section>
-                <h2 className="font-heading text-2xl font-bold text-secondary">
+                <h2 className="type-page-subheading text-secondary">
                   Accessories
                 </h2>
-                <ul className="mt-4 list-disc space-y-2 pl-5 text-sm leading-6 text-secondary-300 md:text-base">
+                <ul className="type-body mt-4 list-disc space-y-2 pl-5 text-secondary-300">
                   {product.details.accessories.map((accessory) => (
                     <li key={accessory}>{accessory}</li>
                   ))}
@@ -464,14 +464,14 @@ export function WholeHouseProductDetail({
             ) : null}
 
             <section>
-              <h2 className="font-heading text-2xl font-bold text-secondary">
+              <h2 className="type-page-subheading text-secondary">
                 Compatibility
               </h2>
               <div className="mt-4 flex items-start gap-3 rounded-xl border border-border p-4">
                 <CheckCircle2 className="mt-0.5 size-5 shrink-0 text-primary" />
                 <div>
                   <p className="font-semibold text-secondary">Matching format</p>
-                  <p className="mt-1 text-sm leading-6 text-secondary-300">
+                  <p className="type-supporting mt-1 text-secondary-300">
                     Compatible with {compatibility}. Confirm model specifications
                     before installation.
                   </p>

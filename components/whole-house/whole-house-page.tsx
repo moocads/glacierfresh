@@ -27,10 +27,10 @@ export function WholeHousePage() {
           <p className="text-xs font-semibold uppercase tracking-[0.08em] text-primary">
             Whole House · Point of entry
           </p>
-          <h1 className="mt-1 font-heading text-[32px] font-semibold leading-tight tracking-[-0.01em] text-secondary md:text-[38px]">
+          <h1 className="type-page-heading mt-1 text-secondary">
             Whole house water filtration
           </h1>
-          <p className="mt-3 max-w-[650px] text-[15px] leading-7 text-secondary-300">
+          <p className="type-body mt-3 max-w-[650px] text-secondary-300">
             Choose a housing for your flow and duty, then match a cartridge by
             filtration media, particle targets, size, and service life.
           </p>

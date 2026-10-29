@@ -77,7 +77,7 @@ export function ProductsCatalog() {
           <p className="text-sm font-semibold uppercase tracking-wide text-primary">
             Products
           </p>
-          <h1 className="mt-3 font-heading text-4xl font-heavy text-secondary md:text-5xl">
+          <h1 className="type-page-heading mt-3 text-secondary">
             All Products
           </h1>
         </div>
@@ -117,7 +117,7 @@ export function ProductsCatalog() {
         ) : activeCategory ? (
           <>
             <div className="mb-8 border-b border-border pb-4">
-              <h2 className="font-heading text-3xl font-heavy text-primary md:text-4xl">
+              <h2 className="type-page-subheading text-primary">
                 {activeCategory.title}
               </h2>
             </div>

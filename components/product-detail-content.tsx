@@ -23,7 +23,7 @@ function DetailMessage({
         <p className="text-sm font-semibold uppercase tracking-wide text-primary">
           Products
         </p>
-        <h1 className="mt-3 font-heading text-4xl font-heavy text-secondary">
+        <h1 className="type-page-heading mt-3 text-secondary">
           {title}
         </h1>
         {message && <p className="mt-3 text-secondary-300">{message}</p>}
@@ -74,7 +74,7 @@ export function ProductDetailContent({
         </div>
 
         <div className="mb-6 lg:hidden">
-          <h1 className="font-heading text-3xl font-extrabold text-secondary">
+          <h1 className="type-page-heading text-secondary">
             {title}
           </h1>
           {product.model && (
@@ -94,7 +94,7 @@ export function ProductDetailContent({
               <p className="text-sm font-semibold uppercase tracking-wide text-primary">
                 {category.title}
               </p>
-              <h1 className="mt-3 font-heading text-3xl font-extrabold text-secondary">
+              <h1 className="type-page-heading mt-3 text-secondary">
                 {title}
               </h1>
               {product.model && (
@@ -106,10 +106,10 @@ export function ProductDetailContent({
 
             {product.description && (
               <div>
-                <h2 className="font-heading text-2xl font-bold text-secondary">
+                <h2 className="type-page-subheading text-secondary">
                   Product Information
                 </h2>
-                <p className="mt-4 text-base leading-relaxed text-secondary">
+                <p className="type-body mt-4 text-secondary">
                   {product.description}
                 </p>
               </div>
@@ -117,7 +117,7 @@ export function ProductDetailContent({
 
             {product.specs && product.specs.length > 0 && (
               <section>
-                <h2 className="font-heading text-2xl font-bold text-secondary">
+                <h2 className="type-page-subheading text-secondary">
                   Specifications
                 </h2>
                 <div className="mt-4 overflow-hidden rounded-lg border border-border">
@@ -142,10 +142,10 @@ export function ProductDetailContent({
 
             {product.accessories && product.accessories.length > 0 && (
               <section>
-                <h2 className="font-heading text-2xl font-bold text-secondary">
+                <h2 className="type-page-subheading text-secondary">
                   Accessories
                 </h2>
-                <ul className="mt-4 list-disc space-y-2 pl-5 text-sm leading-relaxed text-secondary md:text-base">
+                <ul className="type-body mt-4 list-disc space-y-2 pl-5 text-secondary">
                   {product.accessories.map((item) => (
                     <li key={item}>{item}</li>
                   ))}

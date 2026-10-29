@@ -76,10 +76,10 @@ export function AboutContent() {
               <p className="text-sm font-semibold uppercase tracking-[0.2em] text-white/80">
                 About Us
               </p>
-              <h1 className="mt-3 font-heading text-4xl font-heavy leading-tight md:text-5xl lg:text-6xl">
+              <h1 className="type-hero-heading mt-3">
                 Glacier Fresh's Story
               </h1>
-              <p className="mt-4 text-base text-white/90 md:text-lg">
+              <p className="type-body mt-4 text-white/90">
                 Partnership-led water filtration manufacturing for North American retail, wholesale, and
             trade channels—with the scale and certifications partners expect.
               </p>
@@ -92,15 +92,15 @@ export function AboutContent() {
         <div className="container mx-auto px-4 lg:px-8">
           <div className="grid items-start gap-10 lg:grid-cols-2 lg:gap-14 lg:items-center">
             <div>
-              <h2 className="font-heading text-3xl font-heavy text-secondary md:text-4xl">
+              <h2 className="type-page-subheading text-secondary">
                 Built around long-term partnerships
               </h2>
-              <p className="mt-5 text-base leading-relaxed text-muted-foreground md:text-lg">
+              <p className="type-body mt-5 text-muted-foreground">
                 Glacier Fresh partners with distributors, wholesalers, retailers, and plumbers
                 across North America to deliver reliable water filtration solutions built for
                 long-term growth.
               </p>
-              <p className="mt-4 text-base leading-relaxed text-muted-foreground md:text-lg">
+              <p className="type-body mt-4 text-muted-foreground">
                 From large-scale wholesale production to OEM &amp; ODM development, Glacier Fresh is
                 committed to delivering dependable products and long-term partnership support.
               </p>
@@ -123,10 +123,10 @@ export function AboutContent() {
               />
             </div>
             <div>
-              <h2 className="font-heading text-3xl font-heavy text-secondary md:text-4xl">
+              <h2 className="type-page-subheading text-secondary">
                 Retail &amp; distribution reach
               </h2>
-              <p className="mt-5 text-base leading-relaxed text-muted-foreground md:text-lg">
+              <p className="type-body mt-5 text-muted-foreground">
                 Our products support major retail and distribution channels, including:
               </p>
               <ul className="mt-6 grid gap-3 sm:grid-cols-2">
@@ -147,10 +147,10 @@ export function AboutContent() {
       <section className="py-12 md:py-16 lg:py-20">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="mx-auto max-w-3xl text-center">
-            <h2 className="font-heading text-3xl font-heavy text-secondary md:text-4xl">
+            <h2 className="type-page-subheading text-secondary">
               Manufacturing capability that supports scale
             </h2>
-            <p className="mt-5 text-base leading-relaxed text-muted-foreground md:text-lg">
+            <p className="type-body mt-5 text-muted-foreground">
               With over 10 years of manufacturing experience, Glacier Fresh combines vertically
               integrated production, engineering expertise, and scalable supply capabilities to
               support partners worldwide.
@@ -161,7 +161,7 @@ export function AboutContent() {
             {CAPABILITIES.map((item) => (
               <li
                 key={item}
-                className="flex gap-3 rounded-2xl border border-border bg-card px-5 py-4 text-left text-base leading-relaxed text-muted-foreground shadow-sm"
+                className="type-body flex gap-3 rounded-2xl border border-border bg-card px-5 py-4 text-left text-muted-foreground shadow-sm"
               >
                 <span
                   className="mt-1.5 size-2 shrink-0 rounded-full bg-primary"
@@ -172,7 +172,7 @@ export function AboutContent() {
             ))}
           </ul>
 
-          <p className="mx-auto mt-10 max-w-3xl text-center text-base leading-relaxed text-muted-foreground md:text-lg">
+          <p className="type-body mx-auto mt-10 max-w-3xl text-center text-muted-foreground">
             Supported by a team of 50+ engineers and R&amp;D specialists, we develop filtration
             solutions focused on performance, reliability, and ease of installation.
           </p>
@@ -185,7 +185,7 @@ export function AboutContent() {
               >
                 <Icon className="mx-auto size-8 text-primary" aria-hidden />
                 <p className="mt-4 font-heading text-3xl font-heavy text-secondary">{value}</p>
-                <p className="mt-2 text-sm text-muted-foreground">{label}</p>
+                <p className="type-supporting mt-2 text-muted-foreground">{label}</p>
               </div>
             ))}
           </div>
@@ -216,7 +216,7 @@ export function AboutContent() {
 
       <section className="py-12 md:py-16 lg:py-20">
         <div className="container mx-auto max-w-2xl px-4 text-center lg:px-8">
-          <p className="font-heading text-xl font-semibold text-secondary md:text-2xl">
+          <p className="type-page-subheading text-secondary">
             Ready to grow with a manufacturing partner built for the long term?
           </p>
           <Button asChild className="mt-8 rounded-full px-8">

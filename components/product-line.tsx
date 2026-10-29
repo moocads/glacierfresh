@@ -29,7 +29,7 @@ export function ProductLine() {
               />
             </svg>
           </div>
-          <h2 className="font-heading text-3xl font-heavy text-primary md:text-4xl">
+          <h2 className="type-page-subheading text-primary">
             Product Line
           </h2>
         </motion.div>
@@ -60,7 +60,7 @@ export function ProductLine() {
                   
                   {/* Content */}
                   <div className="absolute inset-0 flex flex-col justify-end p-6">
-                    <h2 className="font-heading text-3xl font-bold text-white">
+                    <h2 className="type-page-subheading text-white">
                       {product.title}
                     </h2>
                     {product.subtitle && (

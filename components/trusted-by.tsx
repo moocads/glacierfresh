@@ -35,11 +35,11 @@ export function TrustedBy() {
               />
             </svg>
           </div>
-          <h2 className="font-heading text-2xl font-bold md:text-3xl">
+          <h2 className="type-page-subheading">
             <span className="text-secondary">Trusted </span>
             <span className="text-primary">by North America&apos;s</span>
           </h2>
-          <p className="font-heading text-2xl font-bold text-secondary md:text-3xl">
+          <p className="type-page-subheading text-secondary">
             Leading Retailers
           </p>
         </motion.div>

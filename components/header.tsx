@@ -67,7 +67,7 @@ export function Header() {
           <Link href="/" className="flex items-center gap-2">
             <div className="flex flex-col">
               <Image
-                src="/images/glacier_fresh_logo.png"
+                src="/images/glacier-fresh-logo.svg"
                 alt="Glacier Fresh"
                 width={200}
                 height={100}

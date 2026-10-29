@@ -18,16 +18,16 @@ export function Hero() {
             transition={{ duration: 0.6 }}
             className="relative z-10"
           >
-            <h1 className="text-4xl font-heavy text-primary md:text-6xl">
+            <h1 className="type-hero-heading text-primary">
               From Glacier <br/>to Your Glass. 
             </h1>
-            <h2 className="mt-2 font-heading text-2xl font-bold text-secondary md:text-2xl ">
+            <h2 className="type-page-subheading mt-2 text-secondary">
               Trusted by wholesalers, dealers, and installers.
             </h2>
-            <h2 className="font-heading text-2xl font-bold text-secondary md:text-2xl ">
+            <h2 className="type-page-subheading text-secondary">
                across North America. 
             </h2>
-            <p className="mt-6 max-w-md text-muted-foreground">
+            <p className="type-body mt-6 max-w-md text-muted-foreground">
               NSF-certified water filtration systems designed for consistent supply, easy installation, and long-term value.
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
@@ -44,7 +44,7 @@ export function Hero() {
               </Button>
       
             </div>
-            <h3 className="mt-8 w-fit rounded-full bg-primary-50/50 px-2 py-0 text-md font-medium text-primary">
+            <h3 className="type-supporting mt-8 w-fit rounded-full bg-primary-50/50 px-2 py-0 text-primary">
               Industry Associations & Memberships
             </h3>
             <div className="mt-2 flex flex-wrap gap-4">

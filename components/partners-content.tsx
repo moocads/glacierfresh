@@ -93,10 +93,10 @@ export function PartnersContent() {
               <p className="text-sm font-semibold uppercase tracking-[0.2em] text-white/80">
                 Partner Program
               </p>
-              <h1 className="mt-3 font-heading text-4xl font-heavy leading-tight md:text-5xl lg:text-6xl">
+              <h1 className="type-hero-heading mt-3">
                 Grow with Glacier Fresh
               </h1>
-              <p className="mt-4 text-base text-white/90 md:text-lg">
+              <p className="type-body mt-4 text-white/90">
                 Build lasting customer relationships with dependable water filtration solutions.
               </p>
             </div>
@@ -107,10 +107,10 @@ export function PartnersContent() {
       <section className="border-b border-border py-14 md:py-16">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="mx-auto max-w-4xl text-center">
-            <h2 className="font-heading text-3xl font-heavy text-secondary md:text-4xl">
+            <h2 className="type-page-subheading text-secondary">
               Built for Every Type of Partner
             </h2>
-            <p className="mt-5 text-base leading-relaxed text-muted-foreground md:text-lg">
+            <p className="type-body mt-5 text-muted-foreground">
               Our partner program is designed to support channel growth from wholesale to
               installation. With dependable inventory, practical sales enablement, and technical
               guidance, we help your team move faster and close with confidence.
@@ -138,14 +138,14 @@ export function PartnersContent() {
               </div>
 
               <div>
-                <h3 className="font-heading text-2xl font-heavy text-secondary md:text-3xl">
+                <h3 className="type-page-subheading text-secondary">
                   {section.title}
                 </h3>
-                <p className="mt-4 text-base leading-relaxed text-muted-foreground md:text-lg">
+                <p className="type-body mt-4 text-muted-foreground">
                   {section.description}
                 </p>
                 <p className="mt-6 text-base font-semibold text-secondary">{section.supportTitle}</p>
-                <ul className="mt-3 list-disc space-y-2 pl-5 text-base leading-relaxed text-muted-foreground">
+                <ul className="type-body mt-3 list-disc space-y-2 pl-5 text-muted-foreground">
                   {section.points.map((point) => (
                     <li key={point}>{point}</li>
                   ))}

@@ -12,7 +12,7 @@
   --popover-foreground: #082449;
   --primary: #306FCB;
   --primary-foreground: #ffffff;
-  --secondary: #082449;
+  --secondary: #000000;
   --secondary-foreground: #ffffff;
   --muted: #f1f5f9;
   --muted-foreground: #4D617C;
@@ -43,7 +43,7 @@
   --secondary-200: #8D9AAB;
   --secondary-300: #4D617C;
   --secondary-400: #2B4362;
-  --secondary-500: #082449;
+  --secondary-500: #000000;
   --secondary-600: #071E3D;
   --secondary-700: #051830;
   --secondary-800: #041224;
@@ -51,8 +51,8 @@
 }
 
 @theme inline {
-  --font-sans: 'Poppins', system-ui, sans-serif;
-  --font-heading: 'Nata Sans', system-ui, sans-serif;
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-heading: 'Inter', system-ui, sans-serif;
   --font-mono: 'Geist Mono', monospace;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -113,13 +113,50 @@
   h1 {
     font-weight: 900;
   }
-  /* `next/font` Nata_Sans sets --font-heading; `!important` beats stale Tailwind output that still referenced Noto. */
   h1, h2, h3, h4, h5, h6, .font-heading {
     font-family: var(--font-heading) !important;
   }
 }
 
 @layer utilities {
+  .type-hero-heading {
+    font-family: var(--font-sans) !important;
+    font-size: clamp(3.125rem, 6vw, 4rem) !important;
+    font-weight: 700 !important;
+    line-height: clamp(3.75rem, 6vw, 4rem) !important;
+    letter-spacing: -0.02em;
+  }
+
+  .type-page-heading {
+    font-family: var(--font-sans) !important;
+    font-size: clamp(2.5rem, 4.5vw, 3rem) !important;
+    font-weight: 600 !important;
+    line-height: clamp(3.25rem, 5vw, 3.625rem) !important;
+    letter-spacing: -0.015em;
+  }
+
+  .type-page-subheading {
+    font-family: var(--font-sans) !important;
+    font-size: clamp(1.75rem, 3vw, 2rem) !important;
+    font-weight: 400 !important;
+    line-height: clamp(2.375rem, 3.5vw, 2.625rem) !important;
+    letter-spacing: -0.01em;
+  }
+
+  .type-body {
+    font-family: var(--font-sans) !important;
+    font-size: clamp(1rem, 1.5vw, 1.125rem) !important;
+    font-weight: 400 !important;
+    line-height: clamp(1.5rem, 2vw, 1.625rem) !important;
+  }
+
+  .type-supporting {
+    font-family: var(--font-sans) !important;
+    font-size: 0.875rem !important;
+    font-weight: 400 !important;
+    line-height: 1.3125rem !important;
+  }
+
   .font-heavy {
     font-weight: 900;
   }

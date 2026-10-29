@@ -19,10 +19,10 @@ export function SupportContent() {
     <div className="min-h-screen">
       <section className="border-b border-border bg-muted/30 py-12 md:py-16 lg:py-20">
         <div className="container mx-auto max-w-4xl px-4 text-center lg:px-8">
-          <h1 className="font-heading text-4xl font-heavy tracking-tight text-secondary md:text-5xl">
+          <h1 className="type-page-heading text-secondary">
             Support & documentation
           </h1>
-          <p className="mt-5 text-base leading-relaxed text-muted-foreground md:text-lg">
+          <p className="type-body mt-5 text-muted-foreground">
             Find downloadable resources to support sales, installation, and after-sales service.
             Documents are updated periodically—bookmark this page or check back before your next
             project kickoff.
@@ -57,7 +57,7 @@ export function SupportContent() {
                       <h3 className="font-heading text-lg font-semibold text-secondary">
                         {item.title}
                       </h3>
-                      <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
+                      <p className="type-supporting mt-1.5 text-muted-foreground">
                         {item.description}
                       </p>
                     </div>

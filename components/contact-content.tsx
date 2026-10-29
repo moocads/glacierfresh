@@ -160,10 +160,10 @@ export function ContactContent() {
       <section className="border-b border-border bg-muted/30 py-12 md:py-16 lg:py-20">
         <div className="container mx-auto max-w-4xl px-4 text-center lg:px-8">
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-primary">Contact us</p>
-          <h1 className="mt-3 font-heading text-4xl font-heavy tracking-tight text-secondary md:text-5xl">
+          <h1 className="type-page-heading mt-3 text-secondary">
             Let&apos;s talk
           </h1>
-          <p className="mt-5 text-base leading-relaxed text-muted-foreground md:text-lg">
+          <p className="type-body mt-5 text-muted-foreground">
             Questions about wholesale, products, or partnerships? Send us a message and our team will
             respond as soon as possible.
           </p>
@@ -174,8 +174,8 @@ export function ContactContent() {
         <div className="container mx-auto px-4 lg:px-8">
           <div className="grid gap-12 lg:grid-cols-5 lg:gap-16">
             <aside className="lg:col-span-2">
-              <h2 className="font-heading text-2xl font-heavy text-secondary">Get in touch</h2>
-              <p className="mt-4 text-sm leading-relaxed text-muted-foreground md:text-base">
+              <h2 className="type-page-subheading text-secondary">Get in touch</h2>
+              <p className="type-body mt-4 text-muted-foreground">
                 Glacier Fresh supports distributors, retailers, and installers across North America.
                 Reach out for product information, pricing, or technical support.
               </p>

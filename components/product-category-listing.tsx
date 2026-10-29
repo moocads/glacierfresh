@@ -20,7 +20,7 @@ export function ProductCategoryListing({ categorySlug }: ProductCategoryListingP
           <p className="text-sm font-semibold uppercase tracking-wide text-primary">
             Products
           </p>
-          <h1 className="mt-3 font-heading text-4xl font-heavy text-secondary">
+          <h1 className="type-page-heading mt-3 text-secondary">
             Loading products…
           </h1>
         </section>
@@ -35,7 +35,7 @@ export function ProductCategoryListing({ categorySlug }: ProductCategoryListingP
           <p className="text-sm font-semibold uppercase tracking-wide text-primary">
             Products
           </p>
-          <h1 className="mt-3 font-heading text-4xl font-heavy text-secondary">
+          <h1 className="type-page-heading mt-3 text-secondary">
             Category not found
           </h1>
         </section>
@@ -51,7 +51,7 @@ export function ProductCategoryListing({ categorySlug }: ProductCategoryListingP
             <p className="text-sm font-semibold uppercase tracking-wide text-primary">
               Products
             </p>
-            <h1 className="mt-3 font-heading text-4xl font-heavy text-secondary md:text-5xl">
+            <h1 className="type-page-heading mt-3 text-secondary">
               {category.title}
             </h1>
           </div>

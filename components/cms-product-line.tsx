@@ -31,7 +31,7 @@ export function CmsProductLine() {
               />
             </svg>
           </div>
-          <h2 className="font-heading text-3xl font-heavy text-primary md:text-4xl">
+          <h2 className="type-page-subheading text-primary">
             Product Line
           </h2>
         </motion.div>
@@ -66,7 +66,7 @@ export function CmsProductLine() {
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-primary-900 to-white/0" />
                       <div className="absolute inset-0 flex flex-col justify-end p-6">
-                        <h3 className="font-heading text-3xl font-bold text-white">
+                        <h3 className="type-page-subheading text-white">
                           {section.title}
                         </h3>
                         {section.subtitle && (

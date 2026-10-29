@@ -16,7 +16,7 @@ export function Footer() {
           <div className="lg:col-span-2">
             <Link href="/" className="flex items-center gap-2">
               <div className="flex flex-col">
-                <Image src="/images/logo-white.png" alt="Glacier Fresh" width={200} height={100} />
+                <Image src="/images/glacier-fresh-logo-white.svg" alt="Glacier Fresh" width={200} height={100} />
               </div>
             </Link>
             <p className="mt-4 max-w-sm text-sm text-secondary-100">
