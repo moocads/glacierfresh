@@ -9,7 +9,8 @@ const STATIC_PATHS = [
   '/about',
   '/products',
   '/partners',
-  '/support',
+  '/downloads',
+  '/news',
   '/contact-us',
 ] as const
 
@@ -131,8 +132,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const url = `${SITE_URL}${path}`
     entries.set(url, {
       url,
-      changeFrequency: path === '/' ? 'weekly' : 'monthly',
-      priority: path === '/' ? 1 : path === '/products' ? 0.9 : 0.7,
+      changeFrequency: path === '/' || path === '/news' ? 'weekly' : 'monthly',
+      priority: path === '/' ? 1 : path === '/products' ? 0.9 : path === '/news' ? 0.8 : 0.7,
     })
   }
 

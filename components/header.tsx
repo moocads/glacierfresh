@@ -16,7 +16,8 @@ const navItems = [
   { label: 'Home', href: '/' },
   { label: 'About', href: '/about' },
   { label: 'Partners', href: '/partners' },
-  { label: 'Support', href: '/support' },
+  { label: 'Downloads', href: '/downloads' },
+  { label: 'News', href: '/news' },
   { label: 'Contact', href: '/contact-us' },
 ]
 
@@ -76,7 +77,10 @@ export function Header() {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden items-center gap-8 self-stretch md:flex" aria-label="Main">
+          <nav
+            className="hidden items-center gap-4 self-stretch md:flex lg:gap-6 xl:gap-8"
+            aria-label="Main"
+          >
             {navItems.slice(0, 2).map((item) => (
               <Link
                 key={item.label}
@@ -137,7 +141,7 @@ export function Header() {
           </nav>
 
           {/* CTA Buttons */}
-          <div className="hidden items-center gap-3 md:flex">
+          <div className="hidden items-center gap-3 lg:flex">
             {/* <Button
               variant="outline"
               className="rounded-full border-primary text-primary hover:bg-primary hover:text-primary-foreground"
@@ -275,17 +279,30 @@ export function Header() {
                 Partners
               </Link>
               <Link
-                href="/support"
+                href="/downloads"
                 className={cn(
                   'py-2',
                   navLinkClassName,
-                  isNavItemActive(pathname, '/support')
+                  isNavItemActive(pathname, '/downloads')
                     ? activeNavLinkClassName
                     : inactiveNavLinkClassName,
                 )}
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Support
+                Downloads
+              </Link>
+              <Link
+                href="/news"
+                className={cn(
+                  'py-2',
+                  navLinkClassName,
+                  isNavItemActive(pathname, '/news')
+                    ? activeNavLinkClassName
+                    : inactiveNavLinkClassName,
+                )}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                News
               </Link>
               <div className="flex flex-col gap-3 pt-4">
                 {/* <Button
