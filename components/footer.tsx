@@ -48,7 +48,7 @@ export function Footer() {
               <li> <Link href="mailto:wholesale@glacierfreshfilter.com">wholesale@glacierfreshfilter.com</Link></li>
               <li> <Link href="tel:19055136266">Phone: 1-905-513-6266</Link></li>
               <li> <Link href="tel:18775136266">Toll free: 1-877-513-6266 </Link></li>
-              <li> <Link href="https://share.google/G1tUyaYyXuWHFwWCd">90 Allstate Pkwy, Suite 601, Markham, ON L3R 6H3</Link></li>
+              <li> <Link href="https://share.google/G1tUyaYyXuWHFwWCd">90 Allstate Pkwy, Suite 602, Markham, ON L3R 6H3</Link></li>
             </ul>
             <div className="mt-4">
               <Link href="https://www.linkedin.com/company/89897740/admin/page-posts/published/" target="_blank" rel="noopener noreferrer">
